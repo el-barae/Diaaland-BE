@@ -1,19 +1,20 @@
 package com.project.Service;
 
 import java.util.List;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.project.Entity.Customers;
 import com.project.Entity.Jobs;
 import com.project.Repository.JobRepository;
 
 @Service
 public class JobService {
+	@Autowired
     private final JobRepository jobRepository;
 
 
-    public JobService(JobRepository jobRepository) {
+
+    public JobService(JobRepository jobRepository ) {
         this.jobRepository = jobRepository;
     }
 
@@ -44,6 +45,8 @@ public class JobService {
         }
         return false;
     }
-
-    // Add other methods as needed for job management
+    
+    public List<Jobs> getJobsByCustomer(Customers customer) {
+    	return jobRepository.findByCustomer(customer);
+    }
 }

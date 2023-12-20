@@ -1,13 +1,13 @@
 package com.project.Entity;
-import java.util.Date;
-import java.util.List;
 
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Jobs {
@@ -25,9 +25,9 @@ public class Jobs {
     @Column
     private String type;
     @Column
-    private Date openDate;
+    private LocalDate openDate;
     @Column
-    private Date closeDate;
+    private LocalDate closeDate;
     @Column
     private int numberOfPositions;
     @Column
@@ -36,7 +36,7 @@ public class Jobs {
     private String remoteStatus;
     
 
-    public Jobs(Long id, String name, String description, double minSalary, double maxSalary, String type, Date openDate, Date closeDate, int numberOfPositions, String address, String remoteStatus) {
+    public Jobs(Long id, String name, String description, double minSalary, double maxSalary, String type, LocalDate openDate, LocalDate closeDate, int numberOfPositions, String address, String remoteStatus) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -77,11 +77,11 @@ public class Jobs {
         return type;
     }
 
-    public Date getOpenDate() {
+    public LocalDate getOpenDate() {
         return openDate;
     }
 
-    public Date getCloseDate() {
+    public LocalDate getCloseDate() {
         return closeDate;
     }
 
@@ -121,11 +121,11 @@ public class Jobs {
         this.type = type;
     }
 
-    public void setOpenDate(Date openDate) {
+    public void setOpenDate(LocalDate openDate) {
         this.openDate = openDate;
     }
 
-    public void setCloseDate(Date closeDate) {
+    public void setCloseDate(LocalDate closeDate) {
         this.closeDate = closeDate;
     }
 
@@ -140,9 +140,14 @@ public class Jobs {
     public void setRemoteStatus(String remoteStatus) {
         this.remoteStatus = remoteStatus;
     }
-    @OneToMany(mappedBy = "job")
-    private List<CandidatesJobs> candidatesJobs;
     
-    @OneToMany(mappedBy = "jobcustomer")
-    private List<Customers> customer;
+    public Customers getCustomer() {
+    	return this.customer;
+    }
+    /*@OneToMany(mappedBy = "job")
+    private List<CandidatesJobs> candidatesJobs;*/
+    
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customers customer;
 }

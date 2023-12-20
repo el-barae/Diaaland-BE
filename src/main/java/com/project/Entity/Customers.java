@@ -2,13 +2,14 @@ package com.project.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Customers {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String name;
@@ -91,8 +92,20 @@ public class Customers {
     public void setLogo(String logo) {
         this.logo = logo;
     }
-    @ManyToOne
-    @JoinColumn(name = "job_id")
-    private Jobs jobcustomer;
+    
+    /*public List < Jobs > getJobs() {
+        return jobs;
+    }
+    
+    public void addJob(Jobs job) {
+        jobs.add(job);
+    }
+
+    public void setCourses(List < Jobs > jobs) {
+        this.jobs = jobs;
+    }
+    
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Jobs> jobs = new ArrayList<>();*/
 }
 

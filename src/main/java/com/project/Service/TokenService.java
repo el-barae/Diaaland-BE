@@ -1,7 +1,8 @@
-package com.project.service;
+package com.project.Service;
 
 public interface TokenService {
     public void revokeToken(String token);
     boolean isTokenRevoked(String token);
     // D'autres méthodes liées à la gestion des jetons
+    
 }

@@ -1,4 +1,4 @@
-package com.project.service;
+package com.project.Service;
 
 import java.security.Key;
 import java.util.Date;

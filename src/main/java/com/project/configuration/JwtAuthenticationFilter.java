@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.project.service.JwtService;
+import com.project.Service.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -35,6 +35,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     final String authHeader = request.getHeader("Authorization");
     final String jwt;
     final String email;
+    /*String token = ExtractTokenFromRequest.extractTokenFromRequest(request);
+
+    if (token != null && !tokenBlacklist.isBlacklisted(token)) {
+        // Token is valid and not blacklisted
+        // Proceed with request processing
+        filterChain.doFilter(request, response);
+    } else {
+        // Token is blacklisted or expired, deny access
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    }
+    */
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       filterChain.doFilter(request, response);
       return;

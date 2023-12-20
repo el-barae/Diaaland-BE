@@ -1,11 +1,10 @@
 package com.project.Controller;
 
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,20 +14,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.javafaker.Faker;
+import com.project.Entity.Customers;
 import com.project.Entity.Jobs;
+import com.project.Service.CustomerService;
 import com.project.Service.JobService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/jobs")
 public class JobController {
     private final JobService jobService;
+    private final CustomerService customerService;
 
-    public JobController(JobService jobService) {
+    public JobController(JobService jobService, CustomerService customerService) {
         this.jobService = jobService;
+        this.customerService = customerService;
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public List<Jobs> getAllJobs() {
         return jobService.getAllJobs();
     }
@@ -40,6 +43,18 @@ public class JobController {
             return ResponseEntity.ok(job);
         }
         return ResponseEntity.notFound().build();
+    }
+    
+    @GetMapping("/byCustomer/{id}")
+    public ResponseEntity<List<Jobs>> getJobsByCustomer(@PathVariable Long id) {
+    	Customers customer = customerService.getCustomerById(id);
+   
+        if (customer != null) {
+            List<Jobs> jobs = jobService.getJobsByCustomer(customer);
+            return ResponseEntity.ok(jobs);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
@@ -66,7 +81,7 @@ public class JobController {
         return ResponseEntity.notFound().build();
     }
     
-    @PostMapping("fakejob")
+   /* @PostMapping("fakejob")
     public Jobs createfakeJob(Jobs job) {
     Faker faker = new Faker();
 	Long id=(long) faker.number().randomDigitNotZero();
@@ -85,6 +100,6 @@ public class JobController {
             jobOpenDate, jobCloseDate, jobNumberOfPositions, jobAddress, jobRemoteStatus);
     jobService.createJob(jobs);
     return jobs;
-    }
+    }*/
 }
 

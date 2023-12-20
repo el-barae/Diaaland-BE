@@ -4,11 +4,14 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 @Entity
 public class Candidates {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String firstName;
@@ -191,6 +194,7 @@ public class Candidates {
         this.resumeLink = resumeLink;
         this.photoLink = photoLink;
     }
+    /*
     @OneToMany(mappedBy = "candidate")
     private List<CandidateLinks> candidatesLinks;
     
@@ -208,5 +212,5 @@ public class Candidates {
     
     @OneToMany(mappedBy = "candidate")
     private List<Projects> projects;
-    
+    */
 }

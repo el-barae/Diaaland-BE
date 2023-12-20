@@ -1,10 +1,10 @@
 package com.project.Service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
+import com.project.Entity.Candidates;
 import com.project.Entity.CandidatesJobs;
+import com.project.Entity.Jobs;
 import com.project.Repository.CandidateJobRepository;
 
 @Service
@@ -42,6 +42,12 @@ public class CandidateJobsService {
         }
         return false;
     }
-
-    // Add other methods as needed for candidate job management
+    
+    public List<Jobs> findJobsByCandidateId(Long candidateId) {
+        return candidateJobsRepository.findJobsByCandidateId(candidateId);
+    }
+    
+    public List<Candidates> findCandidatesByJobId(Long candidateId) {
+        return candidateJobsRepository.findCandidatesByJobId(candidateId);
+    }
 }
