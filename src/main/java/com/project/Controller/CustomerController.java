@@ -17,7 +17,7 @@ import com.project.Entity.Customers;
 import com.project.Service.CustomerService;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
     private final CustomerService customerService;
     public CustomerController(CustomerService customerService) {

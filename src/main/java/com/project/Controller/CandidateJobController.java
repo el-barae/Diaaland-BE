@@ -17,7 +17,7 @@ import com.project.Entity.Jobs;
 import com.project.Service.CandidateJobsService;
 
 @RestController
-@RequestMapping("/candidate-jobs")
+@RequestMapping("/api/v1/candidate-jobs")
 public class CandidateJobController {
     private final CandidateJobsService candidateJobsService;
 
