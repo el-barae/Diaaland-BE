@@ -14,6 +14,8 @@ public class Customers {
     @Column
     private String name;
     @Column
+    private String email;
+    @Column
     private String address;
     @Column
     private String city;
@@ -24,9 +26,10 @@ public class Customers {
     @Column
     private String logo;
 
-    public Customers(Long id, String name, String address, String city, String country, String description, String logo) {
+    public Customers(Long id, String name, String email, String address, String city, String country, String description, String logo) {
         this.id = id;
         this.name = name;
+        this.email = email;
         this.address = address;
         this.city = city;
         this.country = country;
@@ -43,6 +46,10 @@ public class Customers {
 
     public String getName() {
         return name;
+    }
+    
+    public String getEmail() {
+        return email;
     }
 
     public String getAddress() {
@@ -71,6 +78,10 @@ public class Customers {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setAddress(String address) {

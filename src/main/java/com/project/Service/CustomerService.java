@@ -1,9 +1,7 @@
 package com.project.Service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.project.Entity.Customers;
 import com.project.Repository.CustomerRepository;
 
@@ -21,6 +19,10 @@ public class CustomerService {
 
     public Customers getCustomerById(Long id) {
         return customerRepository.findById(id).orElse(null);
+    }
+    
+    public Customers findByEmail(String email) {
+        return customerRepository.findByEmail(email);
     }
 
     public Customers createCustomer(Customers customer) {

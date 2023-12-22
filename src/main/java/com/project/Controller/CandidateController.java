@@ -43,6 +43,17 @@ public class CandidateController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @GetMapping("/findIdByEmail/{email}")
+    public Long findIdByEmail(@PathVariable String email) {
+        Candidates candidate = candidateService.findByEmail(email);
+
+        if (candidate != null) {
+            return candidate.getId();
+        } else {
+            return null;
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Candidates> createCandidate(@RequestBody Candidates candidate) {

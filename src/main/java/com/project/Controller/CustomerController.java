@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.project.Entity.Customers;
 import com.project.Service.CustomerService;
 
@@ -36,6 +35,17 @@ public class CustomerController {
             return ResponseEntity.ok(customer);
         }
         return ResponseEntity.notFound().build();
+    }
+    
+    @GetMapping("/findIdByEmail/{email}")
+    public Long findIdByEmail(@PathVariable String email) {
+        Customers customer = customerService.findByEmail(email);
+
+        if (customer != null) {
+            return customer.getId();
+        } else {
+            return null;
+        }
     }
 
     @PostMapping
