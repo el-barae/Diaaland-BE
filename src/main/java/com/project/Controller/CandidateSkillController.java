@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.project.Entity.CandidateSkills;
+import com.project.Entity.Candidates;
+import com.project.Entity.Skills;
 import com.project.Service.CandidateSkillService;
 
 @RestController
@@ -37,6 +38,28 @@ public class CandidateSkillController {
             return ResponseEntity.ok(candidateSkill);
         }
         return ResponseEntity.notFound().build();
+    }
+    
+    @GetMapping("/byCandidate/{id}")
+    public ResponseEntity<List<Skills>> findSkillsByCandidate(@PathVariable Long id) {
+        List<Skills> skills = candidateSkillService.findSkillsByCandidateId(id);
+
+        if (skills.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(skills);
+        }
+    }
+    
+    @GetMapping("/bySkill/{id}")
+    public ResponseEntity<List<Candidates>> findCandidatesBySkill(@PathVariable Long id) {
+        List<Candidates> candidates = candidateSkillService.findCandidatesBySkillId(id);
+
+        if (candidates.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(candidates);
+        }
     }
 
     @PostMapping

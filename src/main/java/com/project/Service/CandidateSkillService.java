@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.project.Repository.CandidateSkillRepository;
 import com.project.Entity.CandidateSkills;
+import com.project.Entity.Candidates;
+import com.project.Entity.Skills;
 
 @Service
 public class CandidateSkillService {
@@ -43,5 +45,11 @@ public class CandidateSkillService {
         return false;
     }
 
-    // Add other methods as needed for candidate skill management
+    public List<Skills> findSkillsByCandidateId(Long candidateId) {
+        return candidateSkillRepository.findSkillsByCandidateId(candidateId);
+    }
+    
+    public List<Candidates> findCandidatesBySkillId(Long candidateId) {
+        return candidateSkillRepository.findCandidatesBySkillId(candidateId);
+    }
 }

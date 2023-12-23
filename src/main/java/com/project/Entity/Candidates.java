@@ -20,8 +20,6 @@ public class Candidates {
     @Column
     private String email;
     @Column
-    private String password;
-    @Column
     private String accountStatus;
     @Column
     private String phoneNumber;
@@ -64,10 +62,6 @@ public class Candidates {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getAccountStatus() {
@@ -130,10 +124,6 @@ public class Candidates {
         this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setAccountStatus(String accountStatus) {
         this.accountStatus = accountStatus;
     }
@@ -174,13 +164,12 @@ public class Candidates {
         this.photoLink = photoLink;
     }
 
-    public Candidates(Long id, String firstName, String lastName, String description, String email, String password, String accountStatus, String phoneNumber, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
+    public Candidates(Long id, String firstName, String lastName, String description, String email, String accountStatus, String phoneNumber, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
         this.email = email;
-        this.password = password;
         this.accountStatus = accountStatus;
         this.phoneNumber = phoneNumber;
         this.jobStatus = jobStatus;
