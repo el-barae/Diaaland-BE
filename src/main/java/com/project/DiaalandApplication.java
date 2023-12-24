@@ -6,12 +6,11 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.project")
-public class Test2Application {
+public class DiaalandApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Test2Application.class, args);
+		SpringApplication.run(DiaalandApplication.class, args);
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            // Code à exécuter lorsque l'application est arrêtée
             System.out.println("L'application Spring Boot se ferme.");
         }));
 	}
