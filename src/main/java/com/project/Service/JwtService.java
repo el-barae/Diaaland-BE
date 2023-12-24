@@ -2,7 +2,9 @@ package com.project.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,9 +45,21 @@ public class JwtService{
       .compact();
   }
 
+  private Set<String> revokedTokens = new HashSet<>();
+
   public boolean isTokenValid(String token, UserDetails userDetails) {
-    final String username = extractUsername(token);
-    return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+      final String username = extractUsername(token);
+      return (username.equals(userDetails.getUsername()) && !isTokenExpired(token) && !isTokenRevoked(token));
+  }
+
+  private boolean isTokenRevoked(String token) {
+      // Vérifie si le token fait partie des tokens révoqués
+      return revokedTokens.contains(token);
+  }
+
+  public void revokeToken(String token) {
+      // Révoque le token en l'ajoutant à la liste des tokens révoqués
+      revokedTokens.add(token);
   }
 
   private boolean isTokenExpired(String token) {

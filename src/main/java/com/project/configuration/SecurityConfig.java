@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -17,12 +16,10 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	
   private UnauthorizedHandler unauthorizedHandler;
-  //private final LogoutService logoutService;
   private final JwtAuthenticationFilter jwtAuthFilter;
   private final AuthenticationProvider authenticationProvider;
-  public SecurityConfig(LogoutService logoutHandler, AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthFilter) {
+  public SecurityConfig(AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthFilter) {
       this.authenticationProvider = authenticationProvider;
-      //this.logoutService = logoutHandler;
       this.jwtAuthFilter = jwtAuthFilter;
   }
   
@@ -33,7 +30,7 @@ public class SecurityConfig {
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
     		  
-      .requestMatchers("/api/v1/**").permitAll()
+      //.requestMatchers("/api/v1/**").permitAll()
       
       .anyRequest().authenticated())
       .authenticationProvider(authenticationProvider)

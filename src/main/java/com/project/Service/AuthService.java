@@ -5,13 +5,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.project.Entity.User;
 import com.project.Repository.UserRepository;
 import com.project.model.AuthResponseDto;
 import com.project.model.LoginRequestDto;
 import com.project.model.RegisterRequestDto;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -54,10 +52,9 @@ public class AuthService {
       .token(jwt)
       .build();
   }
-  public void logout() {
-      // Pour effectuer une déconnexion, vous pouvez effacer le contexte de sécurité actuel
-      SecurityContextHolder.clearContext();
-      
+  public void logout(String token) {
+      jwtService.revokeToken(token);
+	    SecurityContextHolder.clearContext();  
       // Vous pouvez également gérer d'autres actions de déconnexion, telles que l'invalidation de la session,
       // la révocation des jetons, etc., en fonction de vos besoins.
   }

@@ -1,17 +1,16 @@
 package com.project.Controller;
 
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.project.Service.AuthService;
 import com.project.configuration.CustomAuthenticationFailureHandler;
 import com.project.model.AuthResponseDto;
 import com.project.model.LoginRequestDto;
 import com.project.model.RegisterRequestDto;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,6 +32,18 @@ public class AuthController {
   @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
     return ResponseEntity.ok(authService.register(registerRequestDto));
+  }
+  
+  @PostMapping("/logout")
+  public ResponseEntity<String> logout(@RequestBody Map<String, String> requestBody) {
+      String token = requestBody.get("token");
+      
+      if (token != null && !token.isEmpty()) {
+          authService.logout(token);
+          return ResponseEntity.ok("Logged out successfully");
+      } else {
+          return ResponseEntity.badRequest().body("Token not provided");
+      }
   }
   
   /*@PostMapping("/log-out")
