@@ -1,7 +1,6 @@
 package com.project.token;
 
 import com.project.Entity.User;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,15 +10,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Token {
 
@@ -40,6 +33,49 @@ public class Token {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   public User user;
+  
+  public Token() {
+  }
+
+  public Token(String token, TokenType tokenType, boolean revoked, boolean expired, User user) {
+      this.token = token;
+      this.tokenType = tokenType;
+      this.revoked = revoked;
+      this.expired = expired;
+      this.user = user;
+  }
+  
+  public Integer getId() {
+      return id;
+  }
+
+  public void setId(Integer id) {
+      this.id = id;
+  }
+
+  public String getToken() {
+      return token;
+  }
+
+  public void setToken(String token) {
+      this.token = token;
+  }
+
+  public TokenType getTokenType() {
+      return tokenType;
+  }
+
+  public void setTokenType(TokenType tokenType) {
+      this.tokenType = tokenType;
+  }
+
+  public User getUser() {
+      return user;
+  }
+
+  public void setUser(User user) {
+      this.user = user;
+  }
 
   public boolean isExpired() {
       return expired;
