@@ -1,13 +1,10 @@
 package com.project.Entity;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class Links {
@@ -51,6 +48,6 @@ public class Links {
     public void setUrl(String url) {
         this.url = url;
     }
-    @OneToMany(mappedBy = "linkcertificate")
-    private List<Certificates> certificates;
+    /*@OneToMany(mappedBy = "linkcertificate")
+    private List<Certificates> certificates;*/
 }
