@@ -18,6 +18,10 @@ public class FavorisService {
 		return favorisRepo.save(favoris);
 	}
 	
+	public Favoris getFavoris(Long id) {
+		
+	}
+	
 	public boolean DeleteFavoris(Long id) {
 		if(favorisRepo.existsById(id)) {
 			favorisRepo.deleteById(id);
