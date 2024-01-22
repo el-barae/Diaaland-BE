@@ -23,6 +23,10 @@ public class ProjectService {
     public Projects getProjectById(Long id) {
         return projectRepository.findById(id).orElse(null);
     }
+    
+    public List<Projects> getProjectsByCandidateId(Long candidateId) {
+        return projectRepository.findByCandidateId(candidateId);
+    }
 
     public Projects createProject(Projects project) {
         return projectRepository.save(project);

@@ -39,6 +39,16 @@ public class ProjectController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @GetMapping("/byCandidate/{id}")
+    public ResponseEntity<List<Projects>> getProjectsByCandidateId(@PathVariable Long id) {
+    	List <Projects> project = projectService.getProjectsByCandidateId(id);
+    	if (project.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(project);
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Projects> createProject(@RequestBody Projects project) {

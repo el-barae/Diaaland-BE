@@ -1,5 +1,5 @@
 package com.project.Entity;
-import java.util.Date;
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,17 +16,23 @@ public class Projects {
     @Column
     private String name;
     @Column
-    private Date startDate;
+    private LocalDate startDate;
     @Column
-    private Date endDate;
+    private LocalDate endDate;
     @Column
     private String description;
-    public Projects(Long id, String name, Date startDate, Date endDate, String description) {
+    
+    @ManyToOne
+    @JoinColumn(name = "candidate_id")
+    private Candidates candidate;
+    
+    public Projects(Long id, String name, LocalDate startDate, LocalDate endDate, String description, Candidates candidate) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
+        this.candidate = candidate;
     }
 
     public Projects() {
@@ -40,16 +46,20 @@ public class Projects {
         return name;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
     public String getDescription() {
         return description;
+    }
+    
+    public Candidates getCandidate() {
+    	return candidate;
     }
 
     public void setId(Long id) {
@@ -60,19 +70,20 @@ public class Projects {
         this.name = name;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "candidate_id")
-    private Candidates candidate;
+    
+    public void setCandidate(Candidates candidate) {
+    	this.candidate = candidate;
+    }
+    
 }
