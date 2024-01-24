@@ -19,6 +19,10 @@ public class Experiences {
     private Date startDate;
     @Column
     private Date endDate;
+    
+    @ManyToOne
+    @JoinColumn(name = "candidate_id")
+    private Candidates candidate;
 
     public Long getId() {
         return id;
@@ -34,6 +38,10 @@ public class Experiences {
 
     public Date getEndDate() {
         return endDate;
+    }
+    
+    public Candidates getCandidate() {
+    	return candidate;
     }
 
     public void setId(Long id) {
@@ -52,17 +60,19 @@ public class Experiences {
         this.endDate = endDate;
     }
 
+    public void setCandidate(Candidates candidate){
+    	this.candidate = candidate;
+    }
 
     public Experiences() {
     }
 
-    public Experiences(Long id, String name, Date startDate, Date endDate) {
+    public Experiences(Long id, String name, Date startDate, Date endDate, Candidates candidate) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.candidate = candidate;
     }
-    @ManyToOne
-    @JoinColumn(name = "candidate_id")
-    private Candidates candidate;
+   
 }

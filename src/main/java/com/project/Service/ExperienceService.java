@@ -1,9 +1,7 @@
 package com.project.Service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.project.Entity.Experiences;
 import com.project.Repository.ExperianceRepository;
 
@@ -24,6 +22,10 @@ public class ExperienceService {
         return experienceRepository.findById(id).orElse(null);
     }
 
+    public List<Experiences> getXpByCandidateId(Long candidateId) {
+        return experienceRepository.findByCandidateId(candidateId);
+    }	
+    
     public Experiences createExperience(Experiences experience) {
         return experienceRepository.save(experience);
     }

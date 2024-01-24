@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.Entity.Experiences;
+import com.project.Entity.Projects;
 import com.project.Service.ExperienceService;
 
 @RestController
@@ -37,6 +38,16 @@ public class ExperienceController {
             return ResponseEntity.ok(experience);
         }
         return ResponseEntity.notFound().build();
+    }
+    
+    @GetMapping("/byCandidate/{id}")
+    public ResponseEntity<List<Experiences>> getXpByCandidateId(@PathVariable Long id) {
+    	List <Experiences> xp = experienceService.getXpByCandidateId(id);
+    	if (xp.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(xp);
+        }
     }
 
     @PostMapping
