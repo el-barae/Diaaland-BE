@@ -1,5 +1,5 @@
 package com.project.Entity;
-import java.util.Date;
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,9 +16,9 @@ public class Experiences {
     @Column
     private String name;
     @Column
-    private Date startDate;
+    private LocalDate startDate;
     @Column
-    private Date endDate;
+    private LocalDate endDate;
     
     @ManyToOne
     @JoinColumn(name = "candidate_id")
@@ -32,11 +32,11 @@ public class Experiences {
         return name;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
     
@@ -52,11 +52,11 @@ public class Experiences {
         this.name = name;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -67,7 +67,7 @@ public class Experiences {
     public Experiences() {
     }
 
-    public Experiences(Long id, String name, Date startDate, Date endDate, Candidates candidate) {
+    public Experiences(Long id, String name, LocalDate startDate, LocalDate endDate, Candidates candidate) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
