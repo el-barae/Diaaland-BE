@@ -23,6 +23,10 @@ public class SkillService {
     public Skills getSkillById(Long id) {
         return skillRepository.findById(id).orElse(null);
     }
+    
+    public Long getIdByName(String name) {
+        return skillRepository.findIdByName(name);
+    }
 
     public Skills createSkill(Skills skill) {
         return skillRepository.save(skill);

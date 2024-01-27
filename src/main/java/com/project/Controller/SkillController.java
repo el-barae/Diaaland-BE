@@ -40,6 +40,11 @@ public class SkillController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @GetMapping("/id/{name}")
+    public Long getIdByName(@PathVariable String name) {
+    	return skillService.getIdByName(name);
+    }
 
     @PostMapping
     public ResponseEntity<Skills> createSkill(@RequestBody Skills skill) {
