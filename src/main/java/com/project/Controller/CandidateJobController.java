@@ -62,6 +62,17 @@ public class CandidateJobController {
         }
     }
     
+    @GetMapping("/byCustomer/{id}")
+    public ResponseEntity<List<Candidates>> findCandidatesByCustomer(@PathVariable Long id) {
+        List<Candidates> candidates = candidateJobsService.findCandidatesByCustomerId(id);
+
+        if (candidates.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(candidates);
+        }
+    }
+    
     @PostMapping
     public ResponseEntity<CandidatesJobs> createCandidateJob(@RequestBody CandidatesJobs candidateJob) {
         CandidatesJobs newCandidateJob = candidateJobsService.createCandidateJob(candidateJob);

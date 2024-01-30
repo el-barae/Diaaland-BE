@@ -50,4 +50,8 @@ public class CandidateJobsService {
     public List<Candidates> findCandidatesByJobId(Long candidateId) {
         return candidateJobsRepository.findCandidatesByJobId(candidateId);
     }
+    
+    public List<Candidates> findCandidatesByCustomerId(Long customerId){
+    	return candidateJobsRepository.findCandidatesByCustomerId(customerId);
+    }
 }

@@ -13,6 +13,12 @@ import com.project.Entity.Jobs;
 public interface CandidateJobRepository extends JpaRepository<CandidatesJobs, Long> {
 	@Query("SELECT cj.job FROM CandidatesJobs cj WHERE cj.candidate.id = :candidateId")
     List<Jobs> findJobsByCandidateId(@Param("candidateId") Long candidateId);
+	
 	@Query("SELECT cj.candidate FROM CandidatesJobs cj WHERE cj.job.id = :jobId")
     List<Candidates> findCandidatesByJobId(@Param("jobId") Long jobId);
+	
+	@Query("SELECT cj.candidate FROM CandidatesJobs cj, Jobs j "
+	        + "WHERE cj.job.id = j.id "
+	        + "AND j.customer.id = :customerId")
+	List<Candidates> findCandidatesByCustomerId(@Param("customerId") Long customerId);
 }

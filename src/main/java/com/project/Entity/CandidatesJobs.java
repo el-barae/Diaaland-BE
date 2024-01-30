@@ -70,4 +70,12 @@ public class CandidatesJobs {
     public Jobs getJob() {
         return job;
     }
+    
+    public void setCandidates(Candidates candidate) {
+    	this.candidate = candidate;
+    }
+    
+    public void setJob(Jobs job) {
+    	this.job = job;
+    }
 }

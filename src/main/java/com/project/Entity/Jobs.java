@@ -35,8 +35,12 @@ public class Jobs {
     @Column
     private String remoteStatus;
     
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customers customer;
+    
 
-    public Jobs(Long id, String name, String description, double minSalary, double maxSalary, String type, LocalDate openDate, LocalDate closeDate, int numberOfPositions, String address, String remoteStatus) {
+    public Jobs(Long id, String name, String description, double minSalary, double maxSalary, String type, LocalDate openDate, LocalDate closeDate, int numberOfPositions, String address, String remoteStatus, Customers customer) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -48,6 +52,7 @@ public class Jobs {
         this.numberOfPositions = numberOfPositions;
         this.address = address;
         this.remoteStatus = remoteStatus;
+        this.customer = customer;
     }
 
     public Jobs() {
@@ -144,10 +149,11 @@ public class Jobs {
     public Customers getCustomer() {
     	return this.customer;
     }
+    
+    public void setCustomer(Customers customer) {
+    	this.customer = customer;
+    }
     /*@OneToMany(mappedBy = "job")
     private List<CandidatesJobs> candidatesJobs;*/
     
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customers customer;
 }
