@@ -1,12 +1,10 @@
 package com.project.Entity;
-import java.util.Date;
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Educations {
@@ -18,13 +16,13 @@ public class Educations {
     @Column
     private String school;
     @Column
-    private Date startDate;
+    private LocalDate startDate;
     @Column
-    private Date endDate;
+    private LocalDate endDate;
     @Column
     private String diploma;
 
-    public Educations(Long id, String name, String school, Date startDate, Date endDate, String diploma) {
+    public Educations(Long id, String name, String school, LocalDate startDate, LocalDate endDate, String diploma) {
         this.id = id;
         this.name = name;
         this.school = school;
@@ -48,11 +46,11 @@ public class Educations {
         return school;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -72,18 +70,15 @@ public class Educations {
         this.school = school;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
     public void setDiploma(String diploma) {
         this.diploma = diploma;
     }
-    @ManyToOne
-    @JoinColumn(name = "candidate_id")
-    private Candidates candidate;
 }
