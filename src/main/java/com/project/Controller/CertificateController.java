@@ -14,15 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.Entity.Certificates;
+import com.project.Entity.Links;
 import com.project.Service.CertificateService;
+import com.project.Service.LinkService;
 
 @RestController
 @RequestMapping("/api/v1/certificates")
 public class CertificateController {
     private final CertificateService certificateService;
+    private final LinkService linkService;
 
-    public CertificateController(CertificateService certificateService) {
+    public CertificateController(CertificateService certificateService, LinkService linkService) {
         this.certificateService = certificateService;
+        this.linkService = linkService;
     }
 
     @GetMapping
@@ -41,6 +45,11 @@ public class CertificateController {
 
     @PostMapping
     public ResponseEntity<Certificates> createCertificate(@RequestBody Certificates certificate) {
+    	Links links = certificate.getLink();
+        if (links != null) {
+            links = linkService.createLink(links); 
+            certificate.setLink(links);
+        }
         Certificates newCertificate = certificateService.createCertificate(certificate);
         return ResponseEntity.status(HttpStatus.CREATED).body(newCertificate);
     }

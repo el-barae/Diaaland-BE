@@ -31,7 +31,7 @@ public class EducationService {
 
     public Educations updateEducation(Long id, Educations education) {
         if (educationRepository.existsById(id)) {
-            education.setId(id);
+            //education.setId(id);
             return educationRepository.save(education);
         }
         return null;

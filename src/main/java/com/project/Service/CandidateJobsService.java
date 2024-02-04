@@ -43,6 +43,17 @@ public class CandidateJobsService {
         return false;
     }
     
+    public boolean deleteCandidateJobByCandidateAndJob(Long candidateId, Long jobId) {
+        Long id = candidateJobsRepository.findIdByCandidateIdAndJobId(candidateId, jobId);
+
+        if (id != null && candidateJobsRepository.existsById(id)) {
+            candidateJobsRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
+    }
+    
     public List<Jobs> findJobsByCandidateId(Long candidateId) {
         return candidateJobsRepository.findJobsByCandidateId(candidateId);
     }

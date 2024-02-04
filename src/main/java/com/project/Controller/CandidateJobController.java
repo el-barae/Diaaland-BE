@@ -96,5 +96,19 @@ public class CandidateJobController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @DeleteMapping("/{candidateId}/{jobId}")
+    public ResponseEntity<Void> deleteCandidateJobByCandidateAndJob(
+            @PathVariable Long candidateId,
+            @PathVariable Long jobId) {
+
+        boolean deleted = candidateJobsService.deleteCandidateJobByCandidateAndJob(candidateId, jobId);
+
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

@@ -9,48 +9,67 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Links {
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String name;
-    @Column
     private String url;
+    @Column
+    private String description;
     
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "candidate_id")
     private Candidates candidate;
+    
+    @OneToOne(mappedBy = "link")
+    private Educations education;
+    
+    @OneToOne(mappedBy = "link")
+    private Certificates certificate;
+    
 
-    public Links(Long id, String name, String url) {
-        this.id = id;
-        this.name = name;
+    public Links(Long id, String url, String desc, Educations e, Certificates c,Candidates candidate) {
+    	this.id = id;
         this.url = url;
+        this.description=desc;
+        this.education = e;
+        this.certificate = c;
+        this.candidate = candidate;
     }
 
     public Links() {
     }
-
+    
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUrl() {
+        return url;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public Educations getEducation() {
+        return education;
+    }
+    
+    public Certificates getCertificate() {
+        return certificate;
+    }
+    
+    public Candidates getCandidate() {
+        return candidate;
     }
 
     public void setUrl(String url) {

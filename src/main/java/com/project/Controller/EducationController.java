@@ -14,16 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.Entity.Educations;
+import com.project.Entity.Links;
 import com.project.Service.EducationService;
+import com.project.Service.LinkService;
 
 
 @RestController
 @RequestMapping("/api/v1/educations")
 public class EducationController {
     private final EducationService educationService;
+    private final LinkService linkService;
 
-    public EducationController(EducationService educationService) {
+    public EducationController(EducationService educationService, LinkService linkService) {
         this.educationService = educationService;
+        this.linkService = linkService;
     }
 
     @GetMapping
@@ -42,8 +46,32 @@ public class EducationController {
 
     @PostMapping
     public ResponseEntity<Educations> createEducation(@RequestBody Educations education) {
-        Educations newEducation = educationService.createEducation(education);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newEducation);
+        try {
+            // Assuming the link field is already populated in the incoming Educations object
+            Links existingLink = education.getLink();
+            
+            if (existingLink != null && existingLink.getId() != null) {
+                // If the link has an ID, it's assumed to be an existing link
+                Links savedLink = linkService.getLinkById(existingLink.getId());
+                if (savedLink != null) {
+                    // Set the saved link in the education object
+                    education.setLink(savedLink);
+                } else {
+                    // Handle the case where the link with the given ID doesn't exist
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            } else {
+                // Handle the case where the link is not provided or doesn't have an ID
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            // Save the education entity
+            Educations createdEducation = educationService.createEducation(education);
+
+            return new ResponseEntity<>(createdEducation, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{id}")
@@ -64,5 +92,4 @@ public class EducationController {
         return ResponseEntity.notFound().build();
     }
 
-    // Add other methods as needed for education management
 }
