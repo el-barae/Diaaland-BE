@@ -44,6 +44,17 @@ public class CandidateSkillService {
         }
         return false;
     }
+    
+    public boolean deleteCandidateSkillBySkillId(Long candidateId, Long skillId) {
+        Long id = candidateSkillRepository.findIdBySkillId(candidateId, skillId);
+
+        if (id != null && candidateSkillRepository.existsById(id)) {
+            candidateSkillRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
+    }
 
     public List<Skills> findSkillsByCandidateId(Long candidateId) {
         return candidateSkillRepository.findSkillsByCandidateId(candidateId);

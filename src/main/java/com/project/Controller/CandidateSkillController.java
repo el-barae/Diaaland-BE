@@ -85,6 +85,20 @@ public class CandidateSkillController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @DeleteMapping("/{candidateId}/{skillId}")
+    public ResponseEntity<Void> deleteCandidateSkillBySkillId(
+            @PathVariable Long candidateId,
+            @PathVariable Long skillId) {
+
+        boolean deleted = candidateSkillService.deleteCandidateSkillBySkillId(candidateId, skillId);
+
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     // Add other methods as needed for candidate skill management
 }
