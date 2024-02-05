@@ -33,4 +33,15 @@ public class FavorisService {
 		else
 			return false;
 	}
+	
+	public boolean deleteFavorisByCandidateAndJob(Long candidateId, Long jobId) {
+        Long id = favorisRepo.findIdByCandidateIdAndJobId(candidateId, jobId);
+
+        if (id != null && favorisRepo.existsById(id)) {
+        	favorisRepo.deleteById(id);
+            return true;
+        }
+
+        return false;
+    }
 }

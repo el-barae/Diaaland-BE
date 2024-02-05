@@ -48,4 +48,18 @@ public class FavorisController {
         }
         return ResponseEntity.notFound().build();
 	}
+	
+	@DeleteMapping("/{candidateId}/{jobId}")
+    public ResponseEntity<Void> deleteFavorisByCandidateAndJob(
+            @PathVariable Long candidateId,
+            @PathVariable Long jobId) {
+
+        boolean deleted = favorisService.deleteFavorisByCandidateAndJob(candidateId, jobId);
+
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
