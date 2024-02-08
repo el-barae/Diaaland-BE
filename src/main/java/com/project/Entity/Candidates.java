@@ -163,6 +163,24 @@ public class Candidates {
     public void setPhotoLink(String photoLink) {
         this.photoLink = photoLink;
     }
+    
+    public String toString() {
+    	return 
+        this.firstName +"|~"+
+        this.lastName +"|~"+
+        this.description+"|~"+
+        this.email+"|~"+
+        this.accountStatus+"|~"+
+        this.phoneNumber +"|~"+
+        this.jobStatus+"|~"+
+        this.linkedIn +"|~"+
+        this.gitHub +"|~"+
+        this.portfolio +"|~"+
+        this.blog+"|~"+
+        this.expectedSalary +"|~"+
+        this.resumeLink+"|~"+
+        this.photoLink;
+    }
 
     public Candidates(Long id, String firstName, String lastName, String description, String email, String accountStatus, String phoneNumber, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
         this.id = id;

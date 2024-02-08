@@ -43,6 +43,25 @@ public class CandidateController {
         }
         return ResponseEntity.notFound().build();
     }
+    @GetMapping("/tostring/{id}")
+    public ResponseEntity<String> getCandidateByIdToString(@PathVariable Long id) {
+        String s = candidateService.getCandidateById(id).toString();
+        if (s != null) {
+            return ResponseEntity.ok(s);
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    @GetMapping("/name/{id}")
+    public ResponseEntity<String> getNameById(@PathVariable Long id) {
+        String FName = candidateService.getCandidateById(id).getFirstName();
+        String LName = candidateService.getCandidateById(id).getFirstName();
+        if (FName != null && LName != null) {
+            return ResponseEntity.ok(FName+' '+LName);
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
     
     @GetMapping("/findIdByEmail/{email}")
     public Long findIdByEmail(@PathVariable String email) {

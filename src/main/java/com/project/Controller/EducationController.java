@@ -18,6 +18,8 @@ import com.project.Entity.Links;
 import com.project.Service.EducationService;
 import com.project.Service.LinkService;
 
+import Request.EducationAndLinkRequest;
+
 
 @RestController
 @RequestMapping("/api/v1/educations")
@@ -45,32 +47,25 @@ public class EducationController {
     }
 
     @PostMapping
-    public ResponseEntity<Educations> createEducation(@RequestBody Educations education) {
-        try {
-            // Assuming the link field is already populated in the incoming Educations object
-            Links existingLink = education.getLink();
-            
-            if (existingLink != null && existingLink.getId() != null) {
-                // If the link has an ID, it's assumed to be an existing link
-                Links savedLink = linkService.getLinkById(existingLink.getId());
-                if (savedLink != null) {
-                    // Set the saved link in the education object
-                    education.setLink(savedLink);
-                } else {
-                    // Handle the case where the link with the given ID doesn't exist
-                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
-            } else {
-                // Handle the case where the link is not provided or doesn't have an ID
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+    public ResponseEntity<String> createEducationAndLink(@RequestBody EducationAndLinkRequest request) {
 
-            // Save the education entity
+        try {
+            // Extract education and link from the request
+            Educations education = request.getEducation();
+            Links link = request.getLink();
+
+            // Save Links entity
+            Links createdLinks = linkService.createLink(link);
+
+            // Associate the created Links entity with Educations
+            education.setLink(createdLinks);
+
+            // Save Educations entity
             Educations createdEducation = educationService.createEducation(education);
 
-            return new ResponseEntity<>(createdEducation, HttpStatus.CREATED);
+            return new ResponseEntity<>("Education and Link created successfully.", HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error creating Education and Link.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
