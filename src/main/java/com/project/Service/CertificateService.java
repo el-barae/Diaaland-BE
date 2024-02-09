@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.Repository.CertificateRepository;
+import com.project.Repository.LinkRepository;
 import com.project.Entity.Certificates;
 
 @Service
 public class CertificateService {
     private final CertificateRepository certificateRepository;
+    private final LinkRepository linkRepository;
 
-    public CertificateService(CertificateRepository certificateRepository) {
+    public CertificateService(CertificateRepository certificateRepository, LinkRepository linkRepository) {
         this.certificateRepository = certificateRepository;
+        this.linkRepository = linkRepository;
     }
 
     public List<Certificates> getAllCertificates() {
@@ -24,7 +27,7 @@ public class CertificateService {
     }
 
     public Certificates createCertificate(Certificates certificate) {
-        return certificateRepository.save(certificate);
+        return linkRepository.save(certificate);
     }
 
     public Certificates updateCertificate(Long id, Certificates certificate) {

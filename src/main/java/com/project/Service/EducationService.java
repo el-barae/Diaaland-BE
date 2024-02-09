@@ -6,15 +6,18 @@ import org.springframework.stereotype.Service;
 
 import com.project.Entity.Educations;
 import com.project.Repository.EducationRepository;
+import com.project.Repository.LinkRepository;
 
 
 
 @Service
 public class EducationService {
     private final EducationRepository educationRepository;
+    private final LinkRepository linkRepository;
 
-    public EducationService(EducationRepository educationRepository) {
+    public EducationService(EducationRepository educationRepository, LinkRepository linkRepository) {
         this.educationRepository = educationRepository;
+        this.linkRepository = linkRepository;
     }
 
     public List<Educations> getAllEducations() {
@@ -26,7 +29,7 @@ public class EducationService {
     }
 
     public Educations createEducation(Educations education) {
-        return educationRepository.save(education);
+        return linkRepository.save(education);
     }
 
     public Educations updateEducation(Long id, Educations education) {
