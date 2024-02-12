@@ -65,6 +65,5 @@ public class CertificateController {
         }
         return ResponseEntity.notFound().build();
     }
-
     // Add other methods as needed for certificate management
 }
