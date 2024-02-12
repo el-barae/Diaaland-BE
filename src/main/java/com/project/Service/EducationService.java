@@ -27,6 +27,10 @@ public class EducationService {
     public Educations getEducationById(Long id) {
         return educationRepository.findById(id).orElse(null);
     }
+    
+    public List<Educations> getEducationByCandidateId(Long candidateId) {
+        return educationRepository.findByCandidateId(candidateId);
+    }
 
     public Educations createEducation(Educations education) {
         return linkRepository.save(education);

@@ -1,9 +1,7 @@
 package com.project.Service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.project.Repository.CertificateRepository;
 import com.project.Repository.LinkRepository;
 import com.project.Entity.Certificates;
@@ -24,6 +22,10 @@ public class CertificateService {
 
     public Certificates getCertificateById(Long id) {
         return certificateRepository.findById(id).orElse(null);
+    }
+    
+    public List<Certificates> getCertificatesByCandidateId(Long candidateId) {
+        return certificateRepository.findByCandidateId(candidateId);
     }
 
     public Certificates createCertificate(Certificates certificate) {

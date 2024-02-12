@@ -36,6 +36,11 @@ public class CertificateController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @GetMapping("/candidate/{candidateId}")
+    public List<Certificates> getCertificatesByCandidateId(@PathVariable Long candidateId) {
+        return certificateService.getCertificatesByCandidateId(candidateId);
+    }
 
     @PostMapping
     public ResponseEntity<Certificates> createCertificate(@RequestBody Certificates certificate) {

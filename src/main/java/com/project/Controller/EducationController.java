@@ -37,6 +37,11 @@ public class EducationController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @GetMapping("/candidate/{candidateId}")
+    public List<Educations> getEducationByCandidateId(@PathVariable Long candidateId) {
+        return educationService.getEducationByCandidateId(candidateId);
+    }
 
     @PostMapping
     public ResponseEntity<Educations> createEducationAndLink(@RequestBody Educations education) {
