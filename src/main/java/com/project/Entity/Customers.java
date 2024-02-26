@@ -104,6 +104,17 @@ public class Customers {
         this.logo = logo;
     }
     
+    @Override
+    public String toString() {
+        return name + "|~" +
+                email + "|~" +
+                address + "|~" +
+                city + "|~" +
+                country + "|~" +
+                description + "|~" +
+                logo;
+    }
+    
     /*public List < Jobs > getJobs() {
         return jobs;
     }
