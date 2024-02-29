@@ -24,5 +24,6 @@ public interface CandidateJobRepository extends JpaRepository<CandidatesJobs, Lo
 	
 	@Query("SELECT cj.id FROM CandidatesJobs cj WHERE cj.candidate.id = :candidateId AND cj.job.id = :jobId")
     Long findIdByCandidateIdAndJobId(@Param("candidateId") Long candidateId, @Param("jobId") Long jobId);
-
+	
+	boolean existsByCandidateIdAndJobId(Long candidateId, Long jobId);
 }

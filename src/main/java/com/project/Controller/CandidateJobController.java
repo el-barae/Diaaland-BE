@@ -14,15 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.Entity.Candidates;
 import com.project.Entity.CandidatesJobs;
 import com.project.Entity.Jobs;
+import com.project.Repository.CandidateJobRepository;
 import com.project.Service.CandidateJobsService;
 
 @RestController
 @RequestMapping("/api/v1/candidate-jobs")
 public class CandidateJobController {
     private final CandidateJobsService candidateJobsService;
-
-    public CandidateJobController(CandidateJobsService candidateJobsService) {
+    private final CandidateJobRepository candidatesJobsRepository;
+    public CandidateJobController(CandidateJobsService candidateJobsService, CandidateJobRepository candidatesJobsRepository) {
         this.candidateJobsService = candidateJobsService;
+        this.candidatesJobsRepository = candidatesJobsRepository;
     }
 
     @GetMapping
@@ -71,6 +73,11 @@ public class CandidateJobController {
         } else {
             return ResponseEntity.ok(candidates);
         }
+    }
+    
+    @GetMapping("/itsApplied/{candidateId}/{jobId}")
+    public boolean isApplied(@PathVariable Long candidateId, @PathVariable Long jobId) {
+        return candidatesJobsRepository.existsByCandidateIdAndJobId(candidateId, jobId);
     }
     
     @PostMapping
