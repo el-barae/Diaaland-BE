@@ -15,4 +15,6 @@ public interface FavorisRepository extends JpaRepository<Favoris, Long> {
 	
 	@Query("SELECT f.id FROM Favoris f WHERE f.candidate.id = :candidateId AND f.job.id = :jobId")
     Long findIdByCandidateIdAndJobId(@Param("candidateId") Long candidateId, @Param("jobId") Long jobId);
+	
+	boolean existsByCandidateIdAndJobId(Long candidateId, Long jobId);
 }

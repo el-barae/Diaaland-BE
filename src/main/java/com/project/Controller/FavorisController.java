@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.Entity.Favoris;
 import com.project.Entity.Jobs;
+import com.project.Repository.FavorisRepository;
 import com.project.Service.FavorisService;
 
 @RestController
@@ -21,7 +22,12 @@ import com.project.Service.FavorisService;
 public class FavorisController {
 	@Autowired
     private FavorisService favorisService;
+	
+	private final FavorisRepository favorisRepository;
 
+	public FavorisController (FavorisRepository favorisRepository) {
+		this.favorisRepository = favorisRepository;
+	}
 	
 	@PostMapping
 	public ResponseEntity<Favoris> addFavoris(@RequestBody Favoris favoris) {
@@ -39,6 +45,11 @@ public class FavorisController {
             return ResponseEntity.ok(jobs);
         }
 	}
+	
+	@GetMapping("/itsFavoris/{candidateId}/{jobId}")
+    public boolean isFavoris(@PathVariable Long candidateId, @PathVariable Long jobId) {
+        return favorisRepository.existsByCandidateIdAndJobId(candidateId, jobId);
+    }
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteFavoris(@PathVariable Long id) {
