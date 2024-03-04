@@ -2,117 +2,55 @@ package com.project.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 @Entity
-public class Customers {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Customers extends User{
     @Column
     private String name;
     @Column
-    private String email;
-    @Column
-    private String address;
-    @Column
-    private String city;
-    @Column
-    private String country;
-    @Column
-    private String description;
-    @Column
     private String logo;
+    @Column
+    private String url;
 
-    public Customers(Long id, String name, String email, String address, String city, String country, String description, String logo) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.address = address;
-        this.city = city;
-        this.country = country;
-        this.description = description;
+    public Customers(String email, String password, String phoneNumber, String description, String adress, String city, String country, Role role, String name, String logo, String url) {
+    	super(email, password, phoneNumber, description, adress, city, country, role);
+    	this.name = name;
         this.logo = logo;
     }
 
     public Customers() {
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public String getLogo() {
         return logo;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    
+    public String geturl() {
+        return url;
     }
 
     public void setName(String name) {
         this.name = name;
     }
     
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+    
+    public void setUrl(String url) {
+        this.url = url;
     }
     
     @Override
     public String toString() {
         return name + "|~" +
-                email + "|~" +
-                address + "|~" +
-                city + "|~" +
-                country + "|~" +
-                description + "|~" +
-                logo;
+               logo+ "|~" +
+               url;
     }
     
     /*public List < Jobs > getJobs() {

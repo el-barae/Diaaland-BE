@@ -5,22 +5,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.project.Entity.User;
-import com.project.Repository.UserRepository;
+import com.project.Entity.Candidates;
+import com.project.Entity.Role;
+import com.project.Repository.CandidateRepository;
 import com.project.model.AuthResponseDto;
 import com.project.model.LoginRequestDto;
-import com.project.model.RegisterRequestDto;
+import com.project.model.RegisterCandidateRequestDto;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-  private final UserRepository userRepository;
+  private final CandidateRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
-  public  AuthService (JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager){
+  public  AuthService (JwtService jwtService, CandidateRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager){
       this.jwtService = jwtService;
       this.userRepository = userRepository;
       this.passwordEncoder = passwordEncoder;
@@ -38,16 +39,21 @@ public class AuthService {
       .token(jwt)
       .build();
   }
-  public AuthResponseDto register(RegisterRequestDto request) {
-    var user = User.builder()
-      .firstName(request.getFirstName())
-      .lastName(request.getLastName())
+  public AuthResponseDto registerCandidate(RegisterCandidateRequestDto request) {
+    var candidate = Candidates.builder()
+    .firstName(request.getFirstName())
+    .lastName(request.getLastName())
       .email(request.getEmail())
       .password(passwordEncoder.encode(request.getPassword()))
-      .role(request.getRole())
+      .phoneNumber(request.getPhoneNumber())
+      .description(request.getDescription())
+      .adress(request.getAdress())
+      .city(request.getCity())
+      .country(request.getCountry())
+      .role(Role.CANDIDAT)
       .build();
-    userRepository.save(user);
-    var jwt = jwtService.generateToken(user);
+    userRepository.save(candidate);
+    var jwt = jwtService.generateToken(candidate);
     return AuthResponseDto.builder()
       .token(jwt)
       .build();

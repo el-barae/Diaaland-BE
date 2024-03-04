@@ -37,7 +37,7 @@ public class CustomerController {
         return ResponseEntity.notFound().build();
     }
     
-    @GetMapping("/findIdByEmail/{email}")
+   /* @GetMapping("/findIdByEmail/{email}")
     public Long findIdByEmail(@PathVariable String email) {
         Customers customer = customerService.findByEmail(email);
 
@@ -46,7 +46,7 @@ public class CustomerController {
         } else {
             return null;
         }
-    }
+    }*/
     
     @GetMapping("/tostring/{id}")
     public ResponseEntity<String> getCustomerByIdToString(@PathVariable Long id) {

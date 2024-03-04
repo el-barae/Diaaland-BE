@@ -2,49 +2,38 @@ package com.project.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
 @Entity
-public class Admin {
-	@Id
-	private Long id;
+public class Admin extends User{
 	@Column
-    private String name;
+    private String fullName;
     @Column
-    private String email;
+    private String blog;
 	
-    public Admin(Long id, String name, String email) {
-    	this.id=id;
-    	this.name=name;
-    	this.email=email;
+    public Admin(String email, String password, String phoneNumber, String description, String adress, String city, String country, Role role, String name, String blog) {
+    	super(email, password, phoneNumber, description, adress, city, country, role);
+    	this.fullName=name;
+    	this.blog=blog;
     }
     
     public Admin() {
     	
     }
+
+    public String getFullName() {
+        return fullName;
+    }
     
-    public Long getId() {
-        return id;
+    public String getBlog() {
+        return blog;
     }
 
-    public String getName() {
-        return name;
+    public void setFullName(String name) {
+        this.fullName = name;
     }
     
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBlog(String blog) {
+        this.blog = blog;
     }
 
 }
