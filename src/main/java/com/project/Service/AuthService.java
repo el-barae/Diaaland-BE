@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.project.Entity.Candidates;
 import com.project.Entity.Role;
 import com.project.Repository.CandidateRepository;
-import com.project.Repository.UserRepository;
 import com.project.model.AuthResponseDto;
 import com.project.model.LoginRequestDto;
 import com.project.model.RegisterCandidateRequestDto;
@@ -18,14 +17,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 
-  private final CandidateRepository candidateRepository;
-  private final UserRepository userRepository;
+  private final CandidateRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
-  public  AuthService (JwtService jwtService, CandidateRepository candidateRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager){
+  public  AuthService (JwtService jwtService, CandidateRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager){
       this.jwtService = jwtService;
-      this.candidateRepository = candidateRepository;
       this.userRepository = userRepository;
       this.passwordEncoder = passwordEncoder;
       this.authenticationManager = authenticationManager;
@@ -44,8 +41,8 @@ public class AuthService {
   }
   public AuthResponseDto registerCandidate(RegisterCandidateRequestDto request) {
     var candidate = Candidates.builder()
-      .firstName(request.getFirstName())
-      .lastName(request.getLastName())
+    .firstName(request.getFirstName())
+    .lastName(request.getLastName())
       .email(request.getEmail())
       .password(passwordEncoder.encode(request.getPassword()))
       .phoneNumber(request.getPhoneNumber())
@@ -55,7 +52,7 @@ public class AuthService {
       .country(request.getCountry())
       .role(Role.CANDIDAT)
       .build();
-    candidateRepository.save(candidate);
+    userRepository.save(candidate);
     var jwt = jwtService.generateToken(candidate);
     return AuthResponseDto.builder()
       .token(jwt)
@@ -64,5 +61,7 @@ public class AuthService {
   public void logout(String token) {
       jwtService.revokeToken(token);
 	    SecurityContextHolder.clearContext();  
+      // Vous pouvez également gérer d'autres actions de déconnexion, telles que l'invalidation de la session,
+      // la révocation des jetons, etc., en fonction de vos besoins.
   }
 }

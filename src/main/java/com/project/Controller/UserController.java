@@ -1,7 +1,7 @@
 package com.project.Controller;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,28 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.Entity.User;
-import com.project.Repository.UserRepository;
 import com.project.Service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
-    private final UserRepository userRepo;
 
-    public UserController(UserService userService, UserRepository userRepo) {
+    public UserController(UserService userService) {
         this.userService = userService;
-		this.userRepo = userRepo;
     }
 
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
-    }
-    
-    @GetMapping("/email")
-    public Optional<User> getEmail(@RequestBody String email) {
-        return userRepo.findByEmail(email);
     }
 
     @GetMapping("/{id}")

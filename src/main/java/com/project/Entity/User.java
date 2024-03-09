@@ -24,9 +24,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
+  private static final long serialVersionUID = 1L;
 @Id
   @GeneratedValue(strategy = GenerationType.TABLE)
   private Long id;
