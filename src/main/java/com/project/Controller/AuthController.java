@@ -24,9 +24,9 @@ public class AuthController {
   }
 
   @PostMapping
-  public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto registerRequestDto) {
+  public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
 	 //customAuthenticationFailureHandler.setUsername(registerRequestDto.getEmail());
-    return ResponseEntity.ok(authService.login(registerRequestDto));
+    return ResponseEntity.ok(authService.login(loginRequestDto));
   }
   
   @PostMapping("/register/candidate")

@@ -157,7 +157,7 @@ public class Candidates extends User{
     
     public static Builder builder() {
         return new Builder();
-    }
+    } 
 
     public static class Builder {
         private Candidates candidate = new Candidates();
