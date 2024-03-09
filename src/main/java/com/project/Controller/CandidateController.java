@@ -63,7 +63,7 @@ public class CandidateController {
     }
     
     
- /*   @GetMapping("/findIdByEmail/{email}")
+    @GetMapping("/findIdByEmail/{email}")
     public Long findIdByEmail(@PathVariable String email) {
         Candidates candidate = candidateService.findByEmail(email);
 
@@ -73,7 +73,7 @@ public class CandidateController {
             return null;
         }
     }
-*/
+
     @PostMapping
     public ResponseEntity<Candidates> createCandidate(@RequestBody Candidates candidate) {
         Candidates newCandidate = candidateService.createCandidate(candidate);
@@ -105,7 +105,7 @@ public class CandidateController {
         candidate.setFirstName(faker.name().firstName());
         candidate.setLastName(faker.name().lastName());
         candidate.setDescription(faker.lorem().sentence());
-    //    candidate.setEmail(faker.internet().emailAddress());
+        candidate.setEmail(faker.internet().emailAddress());
         candidate.setAccountStatus(faker.options().option("Active", "Inactive"));
         candidate.setPhoneNumber(faker.phoneNumber().phoneNumber());
         candidate.setJobStatus(faker.options().option("Searching", "Not Searching"));

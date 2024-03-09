@@ -24,9 +24,9 @@ public class CandidateService {
         return candidateRepository.findById(id).orElse(null);
     }
     
-    /*public Candidates findByEmail(String email) {
+    public Candidates findByEmail(String email) {
         return candidateRepository.findByEmail(email);
-    }*/
+    }
 
     public Candidates createCandidate(Candidates candidate) {
         return candidateRepository.save(candidate);

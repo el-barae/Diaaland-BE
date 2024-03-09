@@ -2,17 +2,27 @@ package com.project.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import lombok.Builder;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Builder
 @Entity
-public class Candidates extends User{
+public class Candidates {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column
     private String firstName;
     @Column
     private String lastName;
     @Column
+    private String description;
+    @Column
+    private String email;
+    @Column
     private String accountStatus;
+    @Column
+    private String phoneNumber;
     @Column
     private String jobStatus;
     @Column
@@ -34,6 +44,10 @@ public class Candidates extends User{
     public Candidates() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -42,8 +56,20 @@ public class Candidates extends User{
         return lastName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public String getAccountStatus() {
         return accountStatus;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public String getJobStatus() {
@@ -77,7 +103,11 @@ public class Candidates extends User{
     public String getPhotoLink() {
         return photoLink;
     }
-    
+
+    public void setId(Long id2) {
+        this.id = id2;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -86,8 +116,20 @@ public class Candidates extends User{
         this.lastName = lastName;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setAccountStatus(String accountStatus) {
         this.accountStatus = accountStatus;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setJobStatus(String jobStatus) {
@@ -126,10 +168,10 @@ public class Candidates extends User{
     	return 
         this.firstName +"|~"+
         this.lastName +"|~"+
-        /*this.description+"|~"+
-        this.email+"|~"+*/
+        this.description+"|~"+
+        this.email+"|~"+
         this.accountStatus+"|~"+
-        this.getPhoneNumber() +"|~"+
+        this.phoneNumber +"|~"+
         this.jobStatus+"|~"+
         this.linkedIn +"|~"+
         this.gitHub +"|~"+
@@ -140,11 +182,14 @@ public class Candidates extends User{
         this.photoLink;
     }
 
-    public Candidates( String email, String password, String phoneNumber, String description, String adress, String city, String country, Role role, String firstName, String lastName, String accountStatus, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
-    	super(email, password, phoneNumber, description, adress, city, country, role);
+    public Candidates(Long id, String firstName, String lastName, String description, String email, String accountStatus, String phoneNumber, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.description = description;
+        this.email = email;
         this.accountStatus = accountStatus;
+        this.phoneNumber = phoneNumber;
         this.jobStatus = jobStatus;
         this.linkedIn = linkedIn;
         this.gitHub = gitHub;
@@ -154,114 +199,6 @@ public class Candidates extends User{
         this.resumeLink = resumeLink;
         this.photoLink = photoLink;
     }
-    
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private Candidates candidate = new Candidates();
-
-        public Builder email(String email) {
-            candidate.setEmail(email);
-            return this;
-        }
-
-        public Builder password(String password) {
-            candidate.setPassword(password);
-            return this;
-        }
-
-        public Builder phoneNumber(String phoneNumber) {
-            candidate.setPhoneNumber(phoneNumber);
-            return this;
-        }
-
-        public Builder description(String description) {
-            candidate.setDescription(description);
-            return this;
-        }
-
-        public Builder adress(String adress) {
-            candidate.setAdress(adress);
-            return this;
-        }
-
-        public Builder city(String city) {
-            candidate.setCity(city);
-            return this;
-        }
-
-        public Builder country(String country) {
-            candidate.setCountry(country);
-            return this;
-        }
-
-        public Builder role(Role role) {
-            candidate.setRole(role);
-            return this;
-        }
-
-        public Builder firstName(String firstName) {
-            candidate.firstName = firstName;
-            return this;
-        }
-
-        public Builder lastName(String lastName) {
-            candidate.lastName = lastName;
-            return this;
-        }
-
-        public Builder accountStatus(String accountStatus) {
-            candidate.accountStatus = accountStatus;
-            return this;
-        }
-
-        public Builder jobStatus(String jobStatus) {
-            candidate.jobStatus = jobStatus;
-            return this;
-        }
-
-        public Builder linkedIn(String linkedIn) {
-            candidate.linkedIn = linkedIn;
-            return this;
-        }
-
-        public Builder gitHub(String gitHub) {
-            candidate.gitHub = gitHub;
-            return this;
-        }
-
-        public Builder portfolio(String portfolio) {
-            candidate.portfolio = portfolio;
-            return this;
-        }
-
-        public Builder blog(String blog) {
-            candidate.blog = blog;
-            return this;
-        }
-
-        public Builder expectedSalary(double expectedSalary) {
-            candidate.expectedSalary = expectedSalary;
-            return this;
-        }
-
-        public Builder resumeLink(String resumeLink) {
-            candidate.resumeLink = resumeLink;
-            return this;
-        }
-
-        public Builder photoLink(String photoLink) {
-            candidate.photoLink = photoLink;
-            return this;
-        }
-
-        public Candidates build() {
-            return candidate;
-        }
-    }
-
     /*
     @OneToMany(mappedBy = "candidate")
     private List<CandidateLinks> candidatesLinks;
