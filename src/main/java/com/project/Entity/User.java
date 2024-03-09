@@ -30,8 +30,6 @@ public class User implements UserDetails {
 @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String firstName;
-  private String lastName;
   private String email;
   private String password;
   @Enumerated(EnumType.STRING)
@@ -48,16 +46,6 @@ public class User implements UserDetails {
 
   public static class Builder {
       private User user = new User();
-
-      public Builder firstName(String firstName) {
-          user.firstName = firstName;
-          return this;
-      }
-
-      public Builder lastName(String lastName) {
-          user.lastName = lastName;
-          return this;
-      }
 
       public Builder email(String email) {
           user.email = email;
@@ -114,23 +102,6 @@ public String getPassword() {
 
 public void setPassword(String password) {
 	this.password = password;
-}
-
-
-public String getFirstName() {
-	return firstName;
-}
-
-public void setFirstName(String firstName) {
-	this.firstName = firstName;
-}
-
-public String getLastName() {
-	return lastName;
-}
-
-public void setLastName(String lastName) {
-	this.lastName = lastName;
 }
 
 }
