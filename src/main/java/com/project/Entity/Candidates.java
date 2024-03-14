@@ -1,5 +1,7 @@
 package com.project.Entity;
 
+import com.project.Entity.User.Builder;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,6 +42,36 @@ public class Candidates {
     @Column
     private String photoLink;
     
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Candidates c = new Candidates();
+
+        public Builder email(String email) {
+            c.email = email;
+            return this;
+        }
+        public Builder firstName(String fn) {
+            c.firstName = fn;
+            return this;
+        }
+
+        public Builder lastName(String ln) {
+            c.lastName = ln;
+            return this;
+        }
+        
+        public Builder resumeLink(String r) {
+            c.resumeLink = r;
+            return this;
+        }
+
+        public Candidates build() {
+            return c;
+        }
+    }
     
     public Candidates() {
     }

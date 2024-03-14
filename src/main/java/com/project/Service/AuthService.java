@@ -5,7 +5,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.project.Entity.Candidates;
 import com.project.Entity.User;
+import com.project.Repository.CandidateRepository;
 import com.project.Repository.UserRepository;
 import com.project.model.AuthResponseDto;
 import com.project.model.LoginRequestDto;
@@ -17,11 +20,13 @@ import lombok.RequiredArgsConstructor;
 public class AuthService {
 
   private final UserRepository userRepository;
+  private final CandidateRepository candidateRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
-  public  AuthService (JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager){
-      this.jwtService = jwtService;
+  public  AuthService (JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, CandidateRepository candidateRepository){
+      this.candidateRepository = candidateRepository;
+	this.jwtService = jwtService;
       this.userRepository = userRepository;
       this.passwordEncoder = passwordEncoder;
       this.authenticationManager = authenticationManager;
@@ -44,7 +49,14 @@ public class AuthService {
       .password(passwordEncoder.encode(request.getPassword()))
       .role(request.getRole())
       .build();
+    var candidate = Candidates.builder()
+    .firstName(request.getFirstName())
+    .lastName(request.getLastName())
+    .resumeLink(request.getResumeLink())
+    .email(request.getEmail())
+    .build();
     userRepository.save(user);
+    candidateRepository.save(candidate);
     var jwt = jwtService.generateToken(user);
     return AuthResponseDto.builder()
       .token(jwt)

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class RegisterRequestDto {
   private String firstName;
   private String lastName;
+  private String resumeLink;
   private String email;
   private String password;
   private Role role;
@@ -46,5 +47,11 @@ public Role getRole() {
 }
 public void setRole(Role role) {
 	this.role = role;
+}
+public String getResumeLink() {
+	return resumeLink;
+}
+public void setResumeLink(String resumeLink) {
+	this.resumeLink = resumeLink;
 }
 }
