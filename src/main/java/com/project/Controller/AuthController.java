@@ -10,7 +10,9 @@ import com.project.Service.AuthService;
 import com.project.configuration.CustomAuthenticationFailureHandler;
 import com.project.model.AuthResponseDto;
 import com.project.model.LoginRequestDto;
-import com.project.model.RegisterRequestDto;
+import com.project.model.RegisterCandidateRequestDto;
+import com.project.model.RegisterCustomerRequestDto;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,10 +31,15 @@ public class AuthController {
     return ResponseEntity.ok(authService.login(registerRequestDto));
   }
   
-  @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
+  @PostMapping("/register/candidate")
+    public ResponseEntity<AuthResponseDto> registerCandidate(@RequestBody RegisterCandidateRequestDto registerRequestDto) {
     return ResponseEntity.ok(authService.register(registerRequestDto));
   }
+  
+  @PostMapping("/register/customer")
+  public ResponseEntity<AuthResponseDto> registerCustomer(@RequestBody RegisterCustomerRequestDto registerRequestDto) {
+  return ResponseEntity.ok(authService.registerCustomer(registerRequestDto));
+}
   
   @PostMapping("/logout")
   public ResponseEntity<String> logout(@RequestBody Map<String, String> requestBody) {

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequestDto {
+public class RegisterCandidateRequestDto {
   private String firstName;
   private String lastName;
   private String resumeLink;

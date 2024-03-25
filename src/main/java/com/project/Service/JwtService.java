@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,9 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService{
-
+	
+	private Set<String> revokedTokens = new HashSet<>();
+	
   private static final String SECRET_KEY = "77397A244326462948404D635166546A576E5A7234753778214125442A472D4B";
 
   public String extractUsername(String token) {
@@ -45,8 +46,6 @@ public class JwtService{
       .compact();
   }
 
-  private Set<String> revokedTokens = new HashSet<>();
-
   public boolean isTokenValid(String token, UserDetails userDetails) {
       final String username = extractUsername(token);
       return (username.equals(userDetails.getUsername()) && !isTokenExpired(token) && !isTokenRevoked(token));
@@ -69,16 +68,15 @@ public class JwtService{
   private Date extractExpiration(String token) {
     return extractClaim(token, Claims::getExpiration);
   }
-
   private Claims extractAllClaims(String token) {
-    return Jwts
-      .parserBuilder()
-      .setSigningKey(getSignInKey())
-      .build()
-      .parseClaimsJws(token)
-      .getBody();
-  }
-
+	    return Jwts
+	      .parserBuilder()
+	      .setSigningKey(getSignInKey())
+	      .build()
+	      .parseClaimsJws(token)
+	      .getBody();
+	  }
+  
   private Key getSignInKey() {
     byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
     return Keys.hmacShaKeyFor(keyBytes);

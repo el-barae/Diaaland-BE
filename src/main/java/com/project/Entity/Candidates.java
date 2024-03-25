@@ -1,7 +1,5 @@
 package com.project.Entity;
 
-import com.project.Entity.User.Builder;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

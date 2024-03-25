@@ -25,6 +25,27 @@ public class Customers {
     private String description;
     @Column
     private String logo;
+    
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Customers c = new Customers();
+
+        public Builder email(String email) {
+            c.email = email;
+            return this;
+        }
+        public Builder name(String n) {
+            c.name = n;
+            return this;
+        }
+
+        public Customers build() {
+            return c;
+        }
+    }
 
     public Customers(Long id, String name, String email, String address, String city, String country, String description, String logo) {
         this.id = id;
