@@ -5,7 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Candidates {
     @Id
@@ -19,6 +23,12 @@ public class Candidates {
     private String description;
     @Column
     private String email;
+    @Column
+    private String address;
+    @Column
+    private String city;
+    @Column
+    private String country;
     @Column
     private String accountStatus;
     @Column
@@ -194,25 +204,58 @@ public class Candidates {
         this.photoLink = photoLink;
     }
     
+    public String getAddress() {
+        return address;
+    }
+    
+    // Setter pour address
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+    // Getter pour city
+    public String getCity() {
+        return city;
+    }
+    
+    // Setter pour city
+    public void setCity(String city) {
+        this.city = city;
+    }
+    
+    // Getter pour country
+    public String getCountry() {
+        return country;
+    }
+    
+    // Setter pour country
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    
     public String toString() {
-    	return 
-        this.firstName +"|~"+
-        this.lastName +"|~"+
-        this.description+"|~"+
-        this.email+"|~"+
-        this.accountStatus+"|~"+
-        this.phoneNumber +"|~"+
-        this.jobStatus+"|~"+
-        this.linkedIn +"|~"+
-        this.gitHub +"|~"+
-        this.portfolio +"|~"+
-        this.blog+"|~"+
-        this.expectedSalary +"|~"+
-        this.resumeLink+"|~"+
-        this.photoLink;
+        return this.firstName + "|~" +
+               this.lastName + "|~" +
+               this.description + "|~" +
+               this.email + "|~" +
+               this.address + "|~" +
+               this.city + "|~" +
+               this.country + "|~" +
+               this.accountStatus + "|~" +
+               this.phoneNumber + "|~" +
+               this.jobStatus + "|~" +
+               this.linkedIn + "|~" +
+               this.gitHub + "|~" +
+               this.portfolio + "|~" +
+               this.blog + "|~" +
+               this.expectedSalary + "|~" +
+               this.resumeLink + "|~" +
+               this.photoLink
+               ;
     }
 
-    public Candidates(Long id, String firstName, String lastName, String description, String email, String accountStatus, String phoneNumber, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
+
+    public Candidates(Long id, String firstName, String lastName, String description, String email, String address, String city, String country, String accountStatus, String phoneNumber, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -228,7 +271,11 @@ public class Candidates {
         this.expectedSalary = expectedSalary;
         this.resumeLink = resumeLink;
         this.photoLink = photoLink;
+        this.address = address;
+        this.city = city;
+        this.country = country;
     }
+
     /*
     @OneToMany(mappedBy = "candidate")
     private List<CandidateLinks> candidatesLinks;
