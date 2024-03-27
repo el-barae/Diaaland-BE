@@ -1,20 +1,25 @@
 package com.project.Service;
 
+import java.security.Principal;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.Entity.User;
 import com.project.Repository.UserRepository;
-
+import com.project.model.ChangePasswordRequest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 
 @Service
 public class UserService {
+	private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+		this.userRepository = userRepository;
     }
 
     public List<User> getAllUsers() {
@@ -45,5 +50,23 @@ public class UserService {
         return false;
     }
 
-    // Add other methods as needed for user management
+    public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
+
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        // check if the current password is correct
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalStateException("Wrong password");
+        }
+        // check if the two new passwords are the same
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            throw new IllegalStateException("Password are not the same");
+        }
+
+        // update the password
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        // save the new password
+        userRepository.save(user);
+    }
 }

@@ -51,6 +51,13 @@ public class CandidateSkillController {
         }
     }
     
+    @GetMapping("/haveSkills/{id}")
+    public ResponseEntity<Boolean> haveSkills(@PathVariable Long id) {
+        List<Skills> skills = candidateSkillService.findSkillsByCandidateId(id);
+        boolean hasSkills = !skills.isEmpty();
+        return ResponseEntity.ok(hasSkills);
+    }
+
     @GetMapping("/bySkill/{id}")
     public ResponseEntity<List<Candidates>> findCandidatesBySkill(@PathVariable Long id) {
         List<Candidates> candidates = candidateSkillService.findCandidatesBySkillId(id);
