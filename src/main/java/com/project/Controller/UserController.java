@@ -42,6 +42,15 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @GetMapping("/relatedId/{userId}")
+    public ResponseEntity<Long> getRelatedIdByUserId(@PathVariable Long userId) {
+        Long relatedId = userService.getRelatedIdByUserId(userId);
+        if (relatedId == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(relatedId, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {

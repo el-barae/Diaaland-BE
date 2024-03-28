@@ -1,10 +1,13 @@
 package com.project.Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,8 +24,6 @@ public class Candidates {
     private String lastName;
     @Column
     private String description;
-    @Column
-    private String email;
     @Column
     private String address;
     @Column
@@ -50,6 +51,10 @@ public class Candidates {
     @Column
     private String photoLink;
     
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+    
     public static Builder builder() {
         return new Builder();
     }
@@ -57,10 +62,6 @@ public class Candidates {
     public static class Builder {
         private Candidates c = new Candidates();
 
-        public Builder email(String email) {
-            c.email = email;
-            return this;
-        }
         public Builder firstName(String fn) {
             c.firstName = fn;
             return this;
@@ -98,10 +99,6 @@ public class Candidates {
 
     public String getDescription() {
         return description;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public String getAccountStatus() {
@@ -158,10 +155,6 @@ public class Candidates {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setAccountStatus(String accountStatus) {
@@ -237,10 +230,10 @@ public class Candidates {
         return this.firstName + "|~" +
                this.lastName + "|~" +
                this.description + "|~" +
-               this.email + "|~" +
                this.address + "|~" +
                this.city + "|~" +
                this.country + "|~" +
+               this.phoneNumber + "|~" +
                this.accountStatus + "|~" +
                this.phoneNumber + "|~" +
                this.jobStatus + "|~" +
@@ -260,7 +253,6 @@ public class Candidates {
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
-        this.email = email;
         this.accountStatus = accountStatus;
         this.phoneNumber = phoneNumber;
         this.jobStatus = jobStatus;

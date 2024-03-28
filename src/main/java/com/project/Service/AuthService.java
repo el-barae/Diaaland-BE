@@ -58,7 +58,6 @@ public class AuthService {
     .firstName(request.getFirstName())
     .lastName(request.getLastName())
     .resumeLink(request.getResumeLink())
-    .email(request.getEmail())
     .build();
     userRepository.save(user);
     candidateRepository.save(candidate);

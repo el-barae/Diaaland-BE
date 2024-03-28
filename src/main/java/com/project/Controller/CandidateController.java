@@ -105,7 +105,7 @@ public class CandidateController {
         candidate.setFirstName(faker.name().firstName());
         candidate.setLastName(faker.name().lastName());
         candidate.setDescription(faker.lorem().sentence());
-        candidate.setEmail(faker.internet().emailAddress());
+       // candidate.setEmail(faker.internet().emailAddress());
         candidate.setAccountStatus(faker.options().option("Active", "Inactive"));
         candidate.setPhoneNumber(faker.phoneNumber().phoneNumber());
         candidate.setJobStatus(faker.options().option("Searching", "Not Searching"));

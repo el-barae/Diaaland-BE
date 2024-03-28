@@ -6,7 +6,12 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.Entity.Candidates;
+import com.project.Entity.Customers;
+import com.project.Entity.Role;
 import com.project.Entity.User;
+import com.project.Repository.CandidateRepository;
+import com.project.Repository.CustomerRepository;
 import com.project.Repository.UserRepository;
 import com.project.model.ChangePasswordRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,10 +21,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 public class UserService {
 	private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final CandidateRepository candidateRepository;
+    private final CustomerRepository customerRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, CandidateRepository candidateRepository, CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
 		this.userRepository = userRepository;
+        this.candidateRepository = candidateRepository;
+        this.customerRepository = customerRepository;
     }
 
     public List<User> getAllUsers() {
@@ -28,6 +37,23 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+    
+    public Long getRelatedIdByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            return null;
+        }
+
+        if (user.getRole() == Role.CANDIDAT) {
+            Candidates candidate = candidateRepository.findByUser(user);
+            return (candidate != null) ? candidate.getId() : null;
+        } else if (user.getRole() == Role.CUSTOMER) {
+            Customers customer = customerRepository.findByUser(user);
+            return (customer != null) ? customer.getId() : null;
+        }
+
+        return null; 
     }
 
     public User createUser(User user) {

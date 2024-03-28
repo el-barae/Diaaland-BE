@@ -104,4 +104,8 @@ public void setPassword(String password) {
 	this.password = password;
 }
 
+public Role getRole() {
+	return role;
+}
+
 }

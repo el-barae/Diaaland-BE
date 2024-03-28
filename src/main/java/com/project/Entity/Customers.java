@@ -1,11 +1,18 @@
 package com.project.Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Customers {
     @Id
@@ -22,9 +29,15 @@ public class Customers {
     @Column
     private String country;
     @Column
+    private String phoneNumber;
+    @Column
     private String description;
     @Column
     private String logo;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
     
     public static Builder builder() {
         return new Builder();
@@ -47,13 +60,14 @@ public class Customers {
         }
     }
 
-    public Customers(Long id, String name, String email, String address, String city, String country, String description, String logo) {
+    public Customers(Long id, String name, String email, String address, String city, String country, String phoneNumber, String description, String logo) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.address = address;
         this.city = city;
         this.country = country;
+        this.phoneNumber = phoneNumber;
         this.description = description;
         this.logo = logo;
     }
@@ -83,6 +97,10 @@ public class Customers {
 
     public String getCountry() {
         return country;
+    }
+    
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public String getDescription() {
@@ -115,6 +133,10 @@ public class Customers {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+    
+    public void setPhoneNumber(String p) {
+        this.phoneNumber = p;
     }
 
     public void setDescription(String description) {
