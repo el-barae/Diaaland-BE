@@ -88,7 +88,5 @@ public class AuthService {
   public void logout(String token) {
       jwtService.revokeToken(token);
 	    SecurityContextHolder.clearContext();  
-      // Vous pouvez également gérer d'autres actions de déconnexion, telles que l'invalidation de la session,
-      // la révocation des jetons, etc., en fonction de vos besoins.
   }
 }

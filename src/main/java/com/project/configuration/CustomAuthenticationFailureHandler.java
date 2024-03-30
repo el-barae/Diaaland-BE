@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import com.project.Service.LoginAttemptService;
+
+import com.project.Service.LogoutService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,8 +15,8 @@ import java.io.IOException;
 
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-    @Autowired
-    private LoginAttemptService loginAttemptService;
+    //@Autowired
+  /*  private LogoutService loginAttemptService;
 
     private int maxAttempts = 3;
     
@@ -51,5 +52,5 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }
-    }
+    }*/
 }

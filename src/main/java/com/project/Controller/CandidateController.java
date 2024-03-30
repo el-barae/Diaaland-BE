@@ -63,7 +63,7 @@ public class CandidateController {
     }
     
     
-    @GetMapping("/findIdByEmail/{email}")
+   /* @GetMapping("/findIdByEmail/{email}")
     public Long findIdByEmail(@PathVariable String email) {
         Candidates candidate = candidateService.findByEmail(email);
 
@@ -72,7 +72,7 @@ public class CandidateController {
         } else {
             return null;
         }
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<Candidates> createCandidate(@RequestBody Candidates candidate) {

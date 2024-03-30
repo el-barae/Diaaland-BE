@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
   private final AuthService authService;
-  CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+  //CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
   public AuthController (AuthService authService) {
       this.authService = authService;
   }

@@ -2,6 +2,7 @@ package com.project.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,11 +40,13 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
     
-    public Long getRelatedIdByUserId(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
+    public Long getRelatedIdByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty()) {
             return null;
         }
+
+        User user = optionalUser.get();
 
         if (user.getRole() == Role.CANDIDAT) {
             Candidates candidate = candidateRepository.findByUser(user);
@@ -53,8 +56,9 @@ public class UserService {
             return (customer != null) ? customer.getId() : null;
         }
 
-        return null; 
+        return null;
     }
+
 
     public User createUser(User user) {
         return userRepository.save(user);

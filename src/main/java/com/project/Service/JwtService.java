@@ -52,12 +52,10 @@ public class JwtService{
   }
 
   private boolean isTokenRevoked(String token) {
-      // Vérifie si le token fait partie des tokens révoqués
       return revokedTokens.contains(token);
   }
 
   public void revokeToken(String token) {
-      // Révoque le token en l'ajoutant à la liste des tokens révoqués
       revokedTokens.add(token);
   }
 

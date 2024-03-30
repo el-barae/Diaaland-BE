@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.Entity.EmailRequest;
+import com.project.model.EmailRequest;
 
 @RestController
 public class EmailController {
