@@ -1,13 +1,16 @@
 package com.project.Controller;
 
 import java.util.Map;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.Service.AuthService;
-import com.project.configuration.CustomAuthenticationFailureHandler;
+import com.project.Service.ForgotPasswordService;
 import com.project.model.AuthResponseDto;
 import com.project.model.LoginRequestDto;
 import com.project.model.RegisterCandidateRequestDto;
@@ -20,14 +23,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
   private final AuthService authService;
-  //CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
-  public AuthController (AuthService authService) {
+  private final ForgotPasswordService forgotPasswordService;
+  public AuthController (AuthService authService, ForgotPasswordService forgotPasswordService) {
       this.authService = authService;
+	this.forgotPasswordService = forgotPasswordService;
   }
 
   @PostMapping
   public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto registerRequestDto) {
-	 //customAuthenticationFailureHandler.setUsername(registerRequestDto.getEmail());
     return ResponseEntity.ok(authService.login(registerRequestDto));
   }
   
@@ -50,6 +53,17 @@ public class AuthController {
           return ResponseEntity.ok("Logged out successfully");
       } else {
           return ResponseEntity.badRequest().body("Token not provided");
+      }
+  }
+  
+  @PostMapping("/forgot/{email}")
+  public ResponseEntity<String> forgotPassword(@PathVariable String email) {
+      String emailSent = forgotPasswordService.sendResetPasswordEmail(email);
+      if (emailSent == null) {
+    	  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                  .body("Failed to send password reset email. Please try again later.");
+      } else {
+          return ResponseEntity.ok(emailSent);
       }
   }
   

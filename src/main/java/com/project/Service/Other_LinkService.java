@@ -1,6 +1,5 @@
 package com.project.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.project.Entity.Other_Links;
 import com.project.Repository.LinkRepository;
@@ -13,7 +12,6 @@ public class Other_LinkService {
     private final Other_linkRepository otherLinkRepository;
     private final LinkRepository linkRepository;
 
-    @Autowired
     public Other_LinkService(Other_linkRepository otherLinkRepository, LinkRepository linkRepository) {
         this.otherLinkRepository = otherLinkRepository;
         this.linkRepository = linkRepository;

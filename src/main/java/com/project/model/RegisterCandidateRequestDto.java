@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class RegisterCandidateRequestDto {
   private String firstName;
   private String lastName;
-  private String resumeLink;
   private String email;
+  private String resumeLink;
   private String password;
   private Role role;
 public String getFirstName() {

@@ -23,6 +23,8 @@ public class Candidates {
     @Column
     private String lastName;
     @Column
+    private String email;
+    @Column
     private String description;
     @Column
     private String address;
@@ -72,6 +74,11 @@ public class Candidates {
             return this;
         }
         
+        public Builder email(String e) {
+            c.email = e;
+            return this;
+        }
+        
         public Builder resumeLink(String r) {
             c.resumeLink = r;
             return this;
@@ -95,6 +102,10 @@ public class Candidates {
 
     public String getLastName() {
         return lastName;
+    }
+    
+    public String getEmail() {
+        return email;
     }
 
     public String getDescription() {
@@ -151,6 +162,10 @@ public class Candidates {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    
+    public void setEmail(String e) {
+        this.email = e;
     }
 
     public void setDescription(String description) {
@@ -229,6 +244,7 @@ public class Candidates {
     public String toString() {
         return this.firstName + "|~" +
                this.lastName + "|~" +
+               this.email + "|~" +
                this.description + "|~" +
                this.address + "|~" +
                this.city + "|~" +
@@ -248,10 +264,11 @@ public class Candidates {
     }
 
 
-    public Candidates(Long id, String firstName, String lastName, String description, String email, String address, String city, String country, String accountStatus, String phoneNumber, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
+    public Candidates(Long id, String firstName, String lastName, String email, String description, String address, String city, String country, String accountStatus, String phoneNumber, String jobStatus, String linkedIn, String gitHub, String portfolio, String blog, double expectedSalary, String resumeLink, String photoLink) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.description = description;
         this.accountStatus = accountStatus;
         this.phoneNumber = phoneNumber;

@@ -1,6 +1,5 @@
 package com.project.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,6 @@ import java.util.List;
 public class Other_LinkController {
     private final Other_LinkService otherLinkService;
 
-    @Autowired
     public Other_LinkController(Other_LinkService otherLinkService) {
         this.otherLinkService = otherLinkService;
     }

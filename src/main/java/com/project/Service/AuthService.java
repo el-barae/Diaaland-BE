@@ -57,6 +57,7 @@ public class AuthService {
     var candidate = Candidates.builder()
     .firstName(request.getFirstName())
     .lastName(request.getLastName())
+    .email(request.getEmail())
     .resumeLink(request.getResumeLink())
     .build();
     userRepository.save(user);
