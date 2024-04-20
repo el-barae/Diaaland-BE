@@ -13,6 +13,7 @@ public class Message {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column
 	private String email;
 	@Column
@@ -21,6 +22,8 @@ public class Message {
 	private String message;
 	@Column
 	private LocalDateTime date;
+	@Column 
+	boolean view;
 	
 	public Long getId() {
 		return this.id;
@@ -39,6 +42,9 @@ public class Message {
 	}
 	public LocalDateTime getDate() {
 		return this.date;
+	}
+	public boolean getView() {
+		return this.view;
 	}
 	
 	public void setId(Long id) {
@@ -59,6 +65,9 @@ public class Message {
 	
 	public void setDate(LocalDateTime date) {
 		this.date = date;
+	}
+	public void setView(boolean view) {
+		this.view = view;
 	}
 }
 

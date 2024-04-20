@@ -28,10 +28,9 @@ public class SecurityConfig {
 	http.csrf(csrf -> csrf.disable())
       .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-      .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
-    		  
-      //.requestMatchers("/api/v1/**").permitAll()
-      
+      .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()    		  
+      .requestMatchers("/api/v1/jobs/list/**").permitAll()
+      .requestMatchers("/api/v1/messages/**").permitAll()
       .anyRequest().authenticated())
       .authenticationProvider(authenticationProvider)
       .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

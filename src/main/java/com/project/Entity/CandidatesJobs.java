@@ -1,7 +1,5 @@
 package com.project.Entity;
 
-
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,10 +14,19 @@ import jakarta.persistence.ManyToOne;
 public class CandidatesJobs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; 
     
     @Column
     private String status;
+    
+    @Column
+    private String cv;
+    
+    @Column
+    private String diploma;
+    
+    @Column
+    private String coverLetter;
     
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "candidate_id")
@@ -31,11 +38,14 @@ public class CandidatesJobs {
     @JoinColumn(name = "job_id")
     private Jobs job;
 
-    public CandidatesJobs(Long id, String status, Candidates candidate_id, Jobs job_id) {
+    public CandidatesJobs(Long id, String status, Candidates candidate_id, Jobs job_id, String cv, String diploma, String coverLetter) {
         this.id = id;
         this.status = status;
         this.candidate = candidate_id;
         this.job = job_id;
+        this.cv = cv;
+        this.diploma = diploma;
+        this.coverLetter = coverLetter;
     }
 
     public CandidatesJobs() {
@@ -77,5 +87,32 @@ public class CandidatesJobs {
     
     public void setJob(Jobs job) {
     	this.job = job;
+    }
+    
+ // Getter and Setter for cv
+    public String getCv() {
+        return cv;
+    }
+
+    public void setCv(String cv) {
+        this.cv = cv;
+    }
+
+    // Getter and Setter for diploma
+    public String getDiploma() {
+        return diploma;
+    }
+
+    public void setDiploma(String diploma) {
+        this.diploma = diploma;
+    }
+
+    // Getter and Setter for coverLetter
+    public String getCoverLetter() {
+        return coverLetter;
+    }
+
+    public void setCoverLetter(String coverLetter) {
+        this.coverLetter = coverLetter;
     }
 }
