@@ -55,7 +55,7 @@ public class CandidateController {
     @GetMapping("/name/{id}")
     public ResponseEntity<String> getNameById(@PathVariable Long id) {
         String FName = candidateService.getCandidateById(id).getFirstName();
-        String LName = candidateService.getCandidateById(id).getFirstName();
+        String LName = candidateService.getCandidateById(id).getLastName();
         if (FName != null && LName != null) {
             return ResponseEntity.ok(FName+' '+LName);
         }

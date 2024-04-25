@@ -57,6 +57,16 @@ public class CustomerController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @GetMapping("/name/{id}")
+    public ResponseEntity<String> getNameById(@PathVariable Long id) {
+        String name = customerService.getCustomerById(id).getName();
+        if (name != null) {
+            return ResponseEntity.ok(name);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 
     @PostMapping
     public ResponseEntity<Customers> createCustomer(@RequestBody Customers customer) {
