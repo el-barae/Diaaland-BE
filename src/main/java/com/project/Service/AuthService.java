@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.project.Entity.Candidates;
 import com.project.Entity.Customers;
 import com.project.Entity.User;
+import com.project.Entity.Role;
 import com.project.Repository.CandidateRepository;
 import com.project.Repository.CustomerRepository;
 import com.project.Repository.UserRepository;
@@ -44,8 +45,10 @@ public class AuthService {
     );
     var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
     var jwt = jwtService.generateToken(user);
+    Role role = user.getRole();
     return AuthResponseDto.builder()
       .token(jwt)
+      .role(role)
       .build();
   }
   public AuthResponseDto register(RegisterCandidateRequestDto request) {
