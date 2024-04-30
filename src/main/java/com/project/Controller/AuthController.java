@@ -24,10 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
   private final AuthService authService;
   private final ForgotPasswordService forgotPasswordService;
-  public AuthController (AuthService authService, ForgotPasswordService forgotPasswordService) {
-      this.authService = authService;
-	this.forgotPasswordService = forgotPasswordService;
-  }
 
   @PostMapping
   public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto registerRequestDto) {

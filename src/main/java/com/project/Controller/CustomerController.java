@@ -67,7 +67,6 @@ public class CustomerController {
         return ResponseEntity.notFound().build();
     }
 
-
     @PostMapping
     public ResponseEntity<Customers> createCustomer(@RequestBody Customers customer) {
         Customers newCustomer = customerService.createCustomer(customer);

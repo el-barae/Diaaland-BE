@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.github.javafaker.Faker;
 import com.project.Entity.Candidates;
 import com.project.Service.CandidateService;
 
@@ -98,7 +96,9 @@ public class CandidateController {
         return ResponseEntity.notFound().build();
     }
     //private DataFaker dataFaker;
-    @PostMapping("fakecandidate")
+    //@PostMapping("fakecandidate")
+    /*@PostMapping("fakecandidate")
+>>>>>>> 69b6baa (to intellij idea)
     public Candidates createfakeCandidate(Candidates candidate) {
     	Faker faker = new Faker();
     	candidate.setId((long) faker.number().randomDigitNotZero());
@@ -119,9 +119,17 @@ public class CandidateController {
         candidateService.createCandidate(candidate);
     	return candidate;
     	/*Candidates newCandidate = candidateService.createCandidate(candidate);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newCandidate);*/
-    }
+<<<<<<< HEAD
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCandidate);
+    }*/
     /*@GetMapping("/generate-fake-candidates")
+    public String generateFakeCandidates() {
+        dataFaker.FakeCandidate(10); 
+        return "Fake candidates generated and saved.";
+    }
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCandidate);
+    }
+    @GetMapping("/generate-fake-candidates")
     public String generateFakeCandidates() {
         dataFaker.FakeCandidate(10); 
         return "Fake candidates generated and saved.";

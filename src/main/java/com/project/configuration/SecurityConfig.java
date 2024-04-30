@@ -18,10 +18,6 @@ public class SecurityConfig {
   private UnauthorizedHandler unauthorizedHandler;
   private final JwtAuthenticationFilter jwtAuthFilter;
   private final AuthenticationProvider authenticationProvider;
-  public SecurityConfig(AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthFilter) {
-      this.authenticationProvider = authenticationProvider;
-      this.jwtAuthFilter = jwtAuthFilter;
-  }
   
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

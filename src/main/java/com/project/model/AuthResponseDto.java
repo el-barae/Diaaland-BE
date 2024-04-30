@@ -1,5 +1,6 @@
 package com.project.model;
 
+import com.project.Entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,36 +12,32 @@ import com.project.Entity.Role;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthResponseDto {
-  private String token;
-  private Role role;
-  public static Builder builder() {
-      return new Builder();
-  }
-  public static class Builder {
-      private final AuthResponseDto authResponse = new AuthResponseDto();
+    private String token;
+    private Role role;
 
-      public Builder token(String token) {
-          authResponse.token = token;
-          return this;
-      }
-      
-      public Builder role(Role role) {
-          authResponse.role = role;
-          return this;
-      }
+    public static Builder builder() {
+        return new Builder();
+    }
 
-      public AuthResponseDto build() {
-          return authResponse;
-      }
-  }
-public String getToken() {
-	return token;
-}
-public Role getRole() {
-	return role;
-}
+    public static class Builder {
+        private final AuthResponseDto authResponse = new AuthResponseDto();
 
-public void setToken(String token) {
-	this.token = token;
-}  
+        public Builder token(String token) {
+            authResponse.token = token;
+            return this;
+        }
+
+        public Builder role(Role role) {
+                authResponse.role = role;
+                return this;
+        }
+
+        public AuthResponseDto build () {
+            return authResponse;
+        }
+    }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
 }

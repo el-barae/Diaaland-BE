@@ -1,5 +1,6 @@
 package com.project.Service;
 
+import com.project.Entity.Role;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,15 +30,6 @@ public class AuthService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
-  public  AuthService (JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, CandidateRepository candidateRepository, CustomerRepository customerRepository){
-      this.candidateRepository = candidateRepository;
-	this.customerRepository = customerRepository;
-	this.jwtService = jwtService;
-      this.userRepository = userRepository;
-      this.passwordEncoder = passwordEncoder;
-      this.authenticationManager = authenticationManager;
-  }
-
 
   public AuthResponseDto login(LoginRequestDto request) {
     authenticationManager.authenticate(
@@ -49,6 +41,7 @@ public class AuthService {
     return AuthResponseDto.builder()
       .token(jwt)
       .role(role)
+            .role(role)
       .build();
   }
   public AuthResponseDto register(RegisterCandidateRequestDto request) {

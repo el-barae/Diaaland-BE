@@ -70,7 +70,8 @@ public class SkillController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/fakeskill")
+    /*@PostMapping("/fakeskill")
+>>>>>>> 69b6baa (to intellij idea)
     public Skills createFakeSkill() {
         Faker faker = new Faker();
         Skills skill = new Skills();
@@ -81,6 +82,9 @@ public class SkillController {
         skillService.createSkill(skill);
         
         return skill;
+<<<<<<< HEAD
     }
+=======
+    }*/
 
 }
