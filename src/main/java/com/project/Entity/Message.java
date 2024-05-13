@@ -22,6 +22,8 @@ public class Message {
 	private String message;
 	@Column
 	private LocalDateTime date;
+	@Column
+	private String recipient;
 	@Column 
 	boolean view;
 	
@@ -46,6 +48,9 @@ public class Message {
 	public boolean getView() {
 		return this.view;
 	}
+	public String getRecipient() {
+		return this.recipient;
+	}
 	
 	public void setId(Long id) {
 		this.id = id;
@@ -68,6 +73,9 @@ public class Message {
 	}
 	public void setView(boolean view) {
 		this.view = view;
+	}
+	public void setRecipient(String to) {
+		this.recipient = to;
 	}
 }
 

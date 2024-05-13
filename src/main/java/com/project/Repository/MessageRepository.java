@@ -9,4 +9,5 @@ import com.project.Entity.Message;
 
 public interface MessageRepository extends JpaRepository<Message, Long>{
 	List<Message> findByViewTrue();
+	List<Message> findByRecipient(String recipient);
 }

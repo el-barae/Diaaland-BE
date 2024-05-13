@@ -1,6 +1,7 @@
 package com.project.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
@@ -24,8 +25,8 @@ public class MessageService {
 	        return messageRepository.findAll(sort);
 	    }
 	    
-	    public boolean areAnyMessagesNotViewed() {
-	        List<Message> messages = messageRepository.findAll();
+	    public boolean areAnyMessagesNotViewed(String recepient) {
+	        List<Message> messages = messageRepository.findByRecipient(recepient);
 	        for (Message message : messages) {
 	            if (!message.getView()) {
 	                return true;
@@ -38,19 +39,24 @@ public class MessageService {
 	        return messageRepository.findById(id).orElse(null);
 	    }
 
+		public List<Message> getMessageByRecipient(String recipient) {
+		return messageRepository.findByRecipient(recipient);
+	}
+
 	    public Message saveMessage(Message message) {
-	        message.setDate(LocalDateTime.now());
+			LocalDateTime nowWithoutMillis = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+			message.setDate(nowWithoutMillis);
 	        return messageRepository.save(message);
 	    }
 	    
 	    @Transactional
-	    public void setAllMessagesViewed() {
-	        List<Message> allMessages = messageRepository.findAll();
-	        for (Message message : allMessages) {
-	            message.setView(true);
-	        }
-	        messageRepository.saveAll(allMessages);
-	    }
+		public void setAllMessagesViewed(String recipient) {
+			List<Message> messages = messageRepository.findByRecipient(recipient);
+			for (Message message : messages) {
+				message.setView(true);
+				messageRepository.save(message);
+			}
+		}
 
 	    public void deleteMessage(Long id) {
 	        messageRepository.deleteById(id);

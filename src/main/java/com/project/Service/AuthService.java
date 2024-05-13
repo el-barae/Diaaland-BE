@@ -1,22 +1,16 @@
 package com.project.Service;
 
-import com.project.Entity.Role;
+import com.project.Entity.*;
+import com.project.Repository.AdminRepository;
+import com.project.model.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.project.Entity.Candidates;
-import com.project.Entity.Customers;
-import com.project.Entity.User;
-import com.project.Entity.Role;
 import com.project.Repository.CandidateRepository;
 import com.project.Repository.CustomerRepository;
 import com.project.Repository.UserRepository;
-import com.project.model.AuthResponseDto;
-import com.project.model.LoginRequestDto;
-import com.project.model.RegisterCandidateRequestDto;
-import com.project.model.RegisterCustomerRequestDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthService {
 
   private final UserRepository userRepository;
+  private final AdminRepository adminRepository;
   private final CandidateRepository candidateRepository;
   private final CustomerRepository customerRepository;
   private final PasswordEncoder passwordEncoder;
@@ -41,10 +36,27 @@ public class AuthService {
     return AuthResponseDto.builder()
       .token(jwt)
       .role(role)
-            .role(role)
       .build();
   }
-  public AuthResponseDto register(RegisterCandidateRequestDto request) {
+
+    public AuthResponseDto registerAdmin(RegisterAdminRequestDto request) {
+        var user = User.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole())
+                .build();
+        var admin = Admin.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .build();
+        userRepository.save(user);
+        adminRepository.save(admin);
+        var jwt = jwtService.generateToken(user);
+        return AuthResponseDto.builder()
+                .token(jwt)
+                .build();
+    }
+  public AuthResponseDto registerCandidate(RegisterCandidateRequestDto request) {
     var user = User.builder()
       .email(request.getEmail())
       .password(passwordEncoder.encode(request.getPassword()))
@@ -73,6 +85,7 @@ public class AuthService {
 	    var c = Customers.builder()
 	    .name(request.getName())
 	    .email(request.getEmail())
+                .phoneNumber(request.getNumberPhone())
 	     .build();
 	    userRepository.save(user);
 	    customerRepository.save(c);

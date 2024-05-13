@@ -35,10 +35,19 @@ public class MessageController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/recipient/{recipient}")
+    public ResponseEntity<List<Message>> getMessageByTo(@PathVariable String recipient) {
+        List<Message> messages = messageService.getMessageByRecipient(recipient);
+        if (messages != null) {
+            return ResponseEntity.ok(messages);
+        }
+        return ResponseEntity.notFound().build();
+    }
     
-    @GetMapping("/viewed")
-    public boolean isMessagesNotViewed() {
-        return messageService.areAnyMessagesNotViewed();
+    @GetMapping("/viewed/{recipient}")
+    public boolean isMessagesNotViewed(@PathVariable String recipient) {
+        return messageService.areAnyMessagesNotViewed(recipient);
     }
 
     @PostMapping
@@ -50,9 +59,9 @@ public class MessageController {
         return ResponseEntity.notFound().build();
     }
     
-    @PutMapping("/mark-viewed")
-    public void markAllMessagesViewed() {
-        messageService.setAllMessagesViewed();
+    @PutMapping("/mark-viewed/{recipient}")
+    public void markAllMessagesViewed(@PathVariable String recipient) {
+        messageService.setAllMessagesViewed(recipient);
     }
 
     @DeleteMapping("/{id}")

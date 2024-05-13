@@ -1,8 +1,12 @@
 package com.project.Service;
 
+import com.project.Entity.User;
+import com.project.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.project.Entity.Candidates;
 
 import com.project.Repository.CandidateRepository;
@@ -11,9 +15,11 @@ import com.project.Repository.CandidateRepository;
 @Service
 public class CandidateService {
     private final CandidateRepository candidateRepository;
+    private final UserRepository userRepository;
 
-    public CandidateService(CandidateRepository candidateRepository) {
+    public CandidateService(CandidateRepository candidateRepository, UserRepository userRepository) {
         this.candidateRepository = candidateRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Candidates> getAllCandidates() {
@@ -31,7 +37,11 @@ public class CandidateService {
     public Candidates updateCandidate(Long id, Candidates candidate) {
         if (candidateRepository.existsById(id)) {
             candidate.setId(id);
-            return candidateRepository.save(candidate);
+            User user = candidate.getUser();
+            user.setEmail(candidate.getEmail());
+            Candidates c = candidateRepository.save(candidate);
+            userRepository.save(user);
+            return c;
         }
         return null;
     }

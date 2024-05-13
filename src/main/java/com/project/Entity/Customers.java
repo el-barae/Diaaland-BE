@@ -46,6 +46,11 @@ public class Customers {
     public static class Builder {
         private Customers c = new Customers();
 
+        public Builder phoneNumber(String p) {
+            c.phoneNumber = p;
+            return this;
+        }
+
         public Builder email(String email) {
             c.email = email;
             return this;
@@ -154,6 +159,7 @@ public class Customers {
                 address + "|~" +
                 city + "|~" +
                 country + "|~" +
+                phoneNumber + "|~" +
                 description + "|~" +
                 logo;
     }

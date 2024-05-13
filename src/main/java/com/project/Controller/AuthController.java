@@ -1,7 +1,7 @@
 package com.project.Controller;
 
 import java.util.Map;
-
+import com.project.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.Service.AuthService;
 import com.project.Service.ForgotPasswordService;
-import com.project.model.AuthResponseDto;
-import com.project.model.LoginRequestDto;
-import com.project.model.RegisterCandidateRequestDto;
-import com.project.model.RegisterCustomerRequestDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +28,7 @@ public class AuthController {
   
   @PostMapping("/register/candidate")
     public ResponseEntity<AuthResponseDto> registerCandidate(@RequestBody RegisterCandidateRequestDto registerRequestDto) {
-    return ResponseEntity.ok(authService.register(registerRequestDto));
+    return ResponseEntity.ok(authService.registerCandidate(registerRequestDto));
   }
   
   @PostMapping("/register/customer")
