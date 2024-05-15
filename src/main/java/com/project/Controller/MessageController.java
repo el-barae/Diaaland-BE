@@ -1,6 +1,7 @@
 package com.project.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,5 +68,16 @@ public class MessageController {
     @DeleteMapping("/{id}")
     public void  deleteMessage(@PathVariable Long id) {
         messageService.deleteMessage(id);
+    }
+    
+    @DeleteMapping("/recipient/{recipient}")
+    public ResponseEntity<String> deleteMessagesByRecipient(@PathVariable String recipient) {
+        try {
+            messageService.deleteMessagesByRecipient(recipient);
+            return ResponseEntity.ok("Messages for recipient " + recipient + " deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to delete messages for recipient " + recipient);
+        }
     }
 }

@@ -62,4 +62,10 @@ public class MessageService {
 	        messageRepository.deleteById(id);
 	    }
 
+	@Transactional
+	public void deleteMessagesByRecipient(String recipient) {
+		List<Message> messages = messageRepository.findByRecipient(recipient);
+		messageRepository.deleteAll(messages);
+	}
+
 }
