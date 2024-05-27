@@ -31,6 +31,8 @@ public class Customers {
     @Column
     private String phoneNumber;
     @Column
+    private String url;
+    @Column
     private String description;
     @Column
     private String logo;
@@ -60,12 +62,17 @@ public class Customers {
             return this;
         }
 
+        public Customers.Builder user(User u) {
+            c.user = u;
+            return this;
+        }
+
         public Customers build() {
             return c;
         }
     }
 
-    public Customers(Long id, String name, String email, String address, String city, String country, String phoneNumber, String description, String logo) {
+    public Customers(Long id, String name, String email, String address, String city, String country, String phoneNumber, String url, String description, String logo) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -73,6 +80,7 @@ public class Customers {
         this.city = city;
         this.country = country;
         this.phoneNumber = phoneNumber;
+        this.url = url;
         this.description = description;
         this.logo = logo;
     }
@@ -106,6 +114,10 @@ public class Customers {
     
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public String getDescription() {
@@ -144,6 +156,10 @@ public class Customers {
         this.phoneNumber = p;
     }
 
+    public void setUrl(String p) {
+        this.url = p;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -160,6 +176,7 @@ public class Customers {
                 city + "|~" +
                 country + "|~" +
                 phoneNumber + "|~" +
+                url + "|~" +
                 description + "|~" +
                 logo;
     }

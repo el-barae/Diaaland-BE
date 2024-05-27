@@ -84,6 +84,11 @@ public class Candidates {
             return this;
         }
 
+        public Builder user(User u) {
+            c.user = u;
+            return this;
+        }
+
         public Candidates build() {
             return c;
         }
@@ -150,6 +155,10 @@ public class Candidates {
 
     public String getPhotoLink() {
         return photoLink;
+    }
+
+    public User getUser(){
+        return user;
     }
 
     public void setId(Long id2) {
@@ -239,6 +248,10 @@ public class Candidates {
     // Setter pour country
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
     public String toString() {

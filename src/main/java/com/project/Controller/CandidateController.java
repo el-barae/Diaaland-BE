@@ -1,8 +1,14 @@
 package com.project.Controller;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
+import com.project.Service.FileStorageService;
+import com.project.model.ResourceNotFoundException;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +28,11 @@ import com.project.Service.CandidateService;
 @RequestMapping("/api/v1/candidates")
 public class CandidateController {
     private final CandidateService candidateService;
+    private final FileStorageService fileStorageService;
 
-
-    public CandidateController(CandidateService candidateService) {
+    public CandidateController(CandidateService candidateService, FileStorageService fileStorageService) {
         this.candidateService = candidateService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping
@@ -40,6 +47,29 @@ public class CandidateController {
             return ResponseEntity.ok(candidate);
         }
         return ResponseEntity.notFound().build();
+    }
+    @GetMapping("/resumefile/{id}")
+    public ResponseEntity<Resource> getResumeFile(@PathVariable Long id) {
+        try {
+            Candidates candidate = candidateService.getCandidateById(id);
+            String resumeLink = "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/"+candidate.getResumeLink();
+            if (resumeLink == null || resumeLink.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            Resource resource = fileStorageService.loadFileAsResource(resumeLink);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/pdf"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (MalformedURLException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
     @GetMapping("/tostring/{id}")
     public ResponseEntity<String> getCandidateByIdToString(@PathVariable Long id) {

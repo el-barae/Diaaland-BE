@@ -1,21 +1,18 @@
 package com.project.Controller;
 
+import java.io.IOException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.project.Entity.Candidates;
 import com.project.Entity.CandidatesJobs;
 import com.project.Entity.Jobs;
 import com.project.Repository.CandidateJobRepository;
 import com.project.Service.CandidateJobsService;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/candidate-jobs")
@@ -93,6 +90,25 @@ public class CandidateJobController {
             return ResponseEntity.ok(updatedCandidateJob);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<CandidatesJobs> createCandidateJob(
+            @RequestParam("candidateId") Long candidateId,
+            @RequestParam("jobId") Long jobId,
+            @RequestParam("cv") MultipartFile cvFile,
+            @RequestParam("diploma") MultipartFile diplomaFile,
+            @RequestParam("coverLetter") String coverLetter) throws IOException {
+
+        CandidatesJobs candidateJob = candidateJobsService.saveCandidateJob(candidateId, jobId, cvFile, diplomaFile, coverLetter);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(candidateJob.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(candidateJob);
     }
 
     @DeleteMapping("/{id}")

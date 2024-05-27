@@ -4,13 +4,11 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.Entity.*;
+import com.project.Repository.AdminRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.Entity.Candidates;
-import com.project.Entity.Customers;
-import com.project.Entity.Role;
-import com.project.Entity.User;
 import com.project.Repository.CandidateRepository;
 import com.project.Repository.CustomerRepository;
 import com.project.Repository.UserRepository;
@@ -54,6 +52,8 @@ public class UserService {
         } else if (user.getRole() == Role.CUSTOMER) {
             Customers customer = customerRepository.findByUser(user);
             return (customer != null) ? customer.getId() : null;
+        }else if (user.getRole() == Role.ADMIN) {
+            return null;
         }
 
         return null;

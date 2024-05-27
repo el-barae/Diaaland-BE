@@ -60,4 +60,12 @@ public class CandidateSkills {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public void setCandidate(Candidates candidate ) {
+        this.candidate = candidate;
+    }
+
+    public void setSkill(Skills s) {
+        this.skill = s;
+    }
 }

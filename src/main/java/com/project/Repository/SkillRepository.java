@@ -9,4 +9,6 @@ import com.project.Entity.Skills;
 public interface SkillRepository extends JpaRepository<Skills, Long> {
 	@Query("SELECT s.id FROM Skills s WHERE s.name = :name")
 	public Long findIdByName(String name);
+
+	Skills findByName(String name);
 }

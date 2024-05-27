@@ -115,4 +115,8 @@ public class CandidatesJobs {
     public void setCoverLetter(String coverLetter) {
         this.coverLetter = coverLetter;
     }
+
+    public void setCandidate(Candidates candidate) {
+        this.candidate = candidate;
+    }
 }
