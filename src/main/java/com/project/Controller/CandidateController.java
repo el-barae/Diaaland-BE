@@ -41,13 +41,16 @@ public class CandidateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Candidates> getCandidateById(@PathVariable Long id) {
+    public ResponseEntity<Candidates> getCandidateById(@PathVariable Long id) throws MalformedURLException {
         Candidates candidate = candidateService.getCandidateById(id);
-        if (candidate != null) {
-            return ResponseEntity.ok(candidate);
+
+        if (candidate == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        // Return response
+        return ResponseEntity.ok(candidate);
     }
+
     @GetMapping("/resumefile/{id}")
     public ResponseEntity<Resource> getResumeFile(@PathVariable Long id) {
         try {
@@ -56,8 +59,8 @@ public class CandidateController {
             if (resumeLink == null || resumeLink.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-
-            Resource resource = fileStorageService.loadFileAsResource(resumeLink);
+            String upDir = "src/Uploads";
+            Resource resource = fileStorageService.loadFileAsResource(resumeLink, upDir);
 
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType("application/pdf"))
@@ -69,6 +72,32 @@ public class CandidateController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @GetMapping("/image/{id}")
+    public ResponseEntity<Resource> getImageFile(@PathVariable Long id) {
+        try {
+            Candidates candidate = candidateService.getCandidateById(id);
+            if (candidate == null || candidate.getPhotoLink() == null || candidate.getPhotoLink().isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            String photoLink = "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/" + candidate.getPhotoLink();
+            String upDir = "src/Uploads";
+            Resource resource = fileStorageService.loadFileAsResource(photoLink, upDir);
+            if (resource == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (MalformedURLException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
     @GetMapping("/tostring/{id}")

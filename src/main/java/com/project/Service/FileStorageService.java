@@ -17,16 +17,19 @@ import java.nio.file.Paths;
 @Service
 public class FileStorageService {
 
-    private final String uploadDir = "src/Uploads";
+   // private final String uploadDir = "src/Uploads";
 
-    public String storeFile(MultipartFile file) throws IOException {
+    public String storeFile(MultipartFile file, String uploadDir) throws IOException {
         Path copyLocation = Paths
                 .get(uploadDir + File.separator + file.getOriginalFilename());
+        if (Files.exists(copyLocation)) {
+            return copyLocation.toString();
+        }
         Files.copy(file.getInputStream(), copyLocation);
         return copyLocation.toString();
     }
 
-    public Resource loadFileAsResource(String fileName) throws MalformedURLException {
+    public Resource loadFileAsResource(String fileName, String uploadDir) throws MalformedURLException {
         Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();
         Resource resource = new UrlResource(filePath.toUri());
         if(resource.exists()) {

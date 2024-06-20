@@ -35,16 +35,30 @@ public class CandidateService {
     }
 
     public Candidates updateCandidate(Long id, Candidates candidate) {
-        if (candidateRepository.existsById(id)) {
-            candidate.setId(id);
-            User user = candidate.getUser();
-            user.setEmail(candidate.getEmail());
-            Candidates c = candidateRepository.save(candidate);
-            userRepository.save(user);
-            return c;
+        Optional<Candidates> optionalCandidate = candidateRepository.findById(id);
+        if (optionalCandidate.isPresent()) {
+            Candidates existingCandidate = optionalCandidate.get();
+
+            // Update existingCandidate with non-null fields from candidate
+            existingCandidate.updateCandidate(candidate);
+
+            // Check if candidate.getUser() is not null before accessing its properties
+            if (candidate.getUser() != null) {
+                Long uID = candidate.getUser().getId();
+                Optional<User> optionalUser = userRepository.findById(uID);
+                if (optionalUser.isPresent()) {
+                    User user = optionalUser.get();
+                    user.setEmail(candidate.getEmail());
+                    userRepository.save(user);
+                }
+            }
+
+            // Save the updated candidate
+            return candidateRepository.save(existingCandidate);
         }
         return null;
     }
+
 
     public boolean deleteCandidate(Long id) {
         if (candidateRepository.existsById(id)) {

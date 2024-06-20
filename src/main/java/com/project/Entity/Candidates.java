@@ -56,6 +56,63 @@ public class Candidates {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    public Candidates updateCandidate(Candidates newCandidate) {
+        // Update only non-null fields
+        if (newCandidate.getFirstName() != null) {
+            this.setFirstName(newCandidate.getFirstName());
+        }
+        if (newCandidate.getLastName() != null) {
+            this.setLastName(newCandidate.getLastName());
+        }
+        if (newCandidate.getEmail() != null) {
+            this.setEmail(newCandidate.getEmail());
+        }
+        if (newCandidate.getDescription() != null) {
+            this.setDescription(newCandidate.getDescription());
+        }
+        if (newCandidate.getAddress() != null) {
+            this.setAddress(newCandidate.getAddress());
+        }
+        if (newCandidate.getCity() != null) {
+            this.setCity(newCandidate.getCity());
+        }
+        if (newCandidate.getCountry() != null) {
+            this.setCountry(newCandidate.getCountry());
+        }
+        if (newCandidate.getAccountStatus() != null) {
+            this.setAccountStatus(newCandidate.getAccountStatus());
+        }
+        if (newCandidate.getPhoneNumber() != null) {
+            this.setPhoneNumber(newCandidate.getPhoneNumber());
+        }
+        if (newCandidate.getJobStatus() != null) {
+            this.setJobStatus(newCandidate.getJobStatus());
+        }
+        if (newCandidate.getLinkedIn() != null) {
+            this.setLinkedIn(newCandidate.getLinkedIn());
+        }
+        if (newCandidate.getGitHub() != null) {
+            this.setGitHub(newCandidate.getGitHub());
+        }
+        if (newCandidate.getPortfolio() != null) {
+            this.setPortfolio(newCandidate.getPortfolio());
+        }
+        if (newCandidate.getBlog() != null) {
+            this.setBlog(newCandidate.getBlog());
+        }
+        if (newCandidate.getExpectedSalary() != 0.0) {
+            this.setExpectedSalary(newCandidate.getExpectedSalary());
+        }
+        if (newCandidate.getResumeLink() != null) {
+            this.setResumeLink(newCandidate.getResumeLink());
+        }
+        if (newCandidate.getPhotoLink() != null) {
+            this.setPhotoLink(newCandidate.getPhotoLink());
+        }
+        // Do not update id and user attributes
+        return this;
+    }
     
     public static Builder builder() {
         return new Builder();

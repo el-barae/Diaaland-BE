@@ -27,9 +27,26 @@ public class FileUploadController {
     public ResponseEntity<String> uploadFile(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
             // Store the file
+            String uploadDir = "src/Uploads";
             Candidates c = candidateService.getCandidateById(id);
-            String fileName = fileStorageService.storeFile(file);
+            String fileName = fileStorageService.storeFile(file, uploadDir);
             c.setResumeLink(fileName);
+            candidateRepository.save(c);
+            return ResponseEntity.status(HttpStatus.OK).body(fileName);
+        } catch (Exception e) {
+            // Handle file upload failure
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/uploadImg/{id}")
+    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            // Store the file
+            String uploadDir = "src/Uploads";
+            Candidates c = candidateService.getCandidateById(id);
+            String fileName = fileStorageService.storeFile(file, uploadDir);
+            c.setPhotoLink(fileName);
             candidateRepository.save(c);
             return ResponseEntity.status(HttpStatus.OK).body(fileName);
         } catch (Exception e) {

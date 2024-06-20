@@ -50,12 +50,12 @@ public class AuthController {
   
   @PostMapping("/forgot/{email}")
   public ResponseEntity<String> forgotPassword(@PathVariable String email) {
-      String emailSent = forgotPasswordService.sendResetPasswordEmail(email);
-      if (emailSent == null) {
-    	  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+      String token = forgotPasswordService.sendResetPasswordEmail(email);
+      if (token == null) {
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                   .body("Failed to send password reset email. Please try again later.");
       } else {
-          return ResponseEntity.ok(emailSent);
+          return ResponseEntity.ok("Password reset email sent successfully. Token: " + token);
       }
   }
   
