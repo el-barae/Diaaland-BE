@@ -1,6 +1,7 @@
 package com.project.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.project.Entity.User;
 import com.project.Repository.UserRepository;
@@ -34,13 +35,12 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customers updateCustomer(Long id, Customers customer) {
-        if (customerRepository.existsById(id)) {
-            customer.setId(id);
-            User user = customer.getUser();
-            Customers c = customerRepository.save(customer);
-            userRepository.save(user);
-            return c;
+    public Customers updateCustomer(Long id, Customers newCustomer) {
+        Optional<Customers> optionalCustomer = customerRepository.findById(id);
+        if (optionalCustomer.isPresent()) {
+            Customers existingCustomer = optionalCustomer.get();
+            existingCustomer.updateCustomer(newCustomer);
+            return customerRepository.save(existingCustomer);
         }
         return null;
     }

@@ -40,6 +40,39 @@ public class Customers {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    public Customers updateCustomer(Customers newCustomer) {
+        // Update only non-null fields
+        if (newCustomer.getName() != null) {
+            this.setName(newCustomer.getName());
+        }
+        if (newCustomer.getEmail() != null) {
+            this.setEmail(newCustomer.getEmail());
+        }
+        if (newCustomer.getAddress() != null) {
+            this.setAddress(newCustomer.getAddress());
+        }
+        if (newCustomer.getCity() != null) {
+            this.setCity(newCustomer.getCity());
+        }
+        if (newCustomer.getCountry() != null) {
+            this.setCountry(newCustomer.getCountry());
+        }
+        if (newCustomer.getPhoneNumber() != null) {
+            this.setPhoneNumber(newCustomer.getPhoneNumber());
+        }
+        if (newCustomer.getUrl() != null) {
+            this.setUrl(newCustomer.getUrl());
+        }
+        if (newCustomer.getDescription() != null) {
+            this.setDescription(newCustomer.getDescription());
+        }
+        if (newCustomer.getLogo() != null) {
+            this.setLogo(newCustomer.getLogo());
+        }
+        // Do not update id and user attributes
+        return this;
+    }
     
     public static Builder builder() {
         return new Builder();

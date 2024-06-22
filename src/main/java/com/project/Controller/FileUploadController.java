@@ -1,8 +1,11 @@
 package com.project.Controller;
 
 import com.project.Entity.Candidates;
+import com.project.Entity.Customers;
 import com.project.Repository.CandidateRepository;
+import com.project.Repository.CustomerRepository;
 import com.project.Service.CandidateService;
+import com.project.Service.CustomerService;
 import com.project.Service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,12 @@ public class FileUploadController {
 
     @Autowired
     private CandidateRepository candidateRepository;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @PostMapping("/upload/{id}")
     public ResponseEntity<String> uploadFile(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
@@ -48,6 +57,22 @@ public class FileUploadController {
             String fileName = fileStorageService.storeFile(file, uploadDir);
             c.setPhotoLink(fileName);
             candidateRepository.save(c);
+            return ResponseEntity.status(HttpStatus.OK).body(fileName);
+        } catch (Exception e) {
+            // Handle file upload failure
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/uploadLogo/{id}")
+    public ResponseEntity<String> uploadLogo(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            // Store the file
+            String uploadDir = "src/Uploads";
+            Customers c = customerService.getCustomerById(id);
+            String fileName = fileStorageService.storeFile(file, uploadDir);
+            c.setLogo(fileName);
+            customerRepository.save(c);
             return ResponseEntity.status(HttpStatus.OK).body(fileName);
         } catch (Exception e) {
             // Handle file upload failure

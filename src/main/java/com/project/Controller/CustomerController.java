@@ -1,9 +1,15 @@
 
 package com.project.Controller;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
+import com.project.Service.FileStorageService;
+import com.project.model.ResourceNotFoundException;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +26,11 @@ import com.project.Service.CustomerService;
 @RequestMapping("/api/v1/customers")
 public class CustomerController {
     private final CustomerService customerService;
-    public CustomerController(CustomerService customerService) {
+    private final FileStorageService fileStorageService;
+
+    public CustomerController(CustomerService customerService, FileStorageService fileStorageService) {
         this.customerService = customerService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping
@@ -66,6 +75,34 @@ public class CustomerController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/logo/{id}")
+    public ResponseEntity<Resource> getLogoFile(@PathVariable Long id) {
+        try {
+            Customers customer = customerService.getCustomerById(id);
+            if (customer == null || customer.getLogo() == null || customer.getLogo().isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            String logoLink = "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/" + customer.getLogo();
+            String uploadDir = "src/Uploads";
+            Resource resource = fileStorageService.loadFileAsResource(logoLink, uploadDir);
+            if (resource == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG) // Change the content type according to the image format
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (MalformedURLException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
     @PostMapping
     public ResponseEntity<Customers> createCustomer(@RequestBody Customers customer) {

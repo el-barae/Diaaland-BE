@@ -74,6 +74,7 @@ public class CandidateController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @GetMapping("/image/{id}")
     public ResponseEntity<Resource> getImageFile(@PathVariable Long id) {
         try {
@@ -100,6 +101,7 @@ public class CandidateController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
     @GetMapping("/tostring/{id}")
     public ResponseEntity<String> getCandidateByIdToString(@PathVariable Long id) {
         String s = candidateService.getCandidateById(id).toString();
