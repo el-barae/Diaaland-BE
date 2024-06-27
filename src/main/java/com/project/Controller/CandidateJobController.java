@@ -1,8 +1,16 @@
 package com.project.Controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
+
+import com.project.Service.CandidateService;
+import com.project.Service.FileStorageService;
+import com.project.model.ResourceNotFoundException;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.project.Entity.Candidates;
@@ -19,9 +27,14 @@ import java.net.URI;
 public class CandidateJobController {
     private final CandidateJobsService candidateJobsService;
     private final CandidateJobRepository candidatesJobsRepository;
-    public CandidateJobController(CandidateJobsService candidateJobsService, CandidateJobRepository candidatesJobsRepository) {
+    private final CandidateService candidateService;
+    private final FileStorageService fileStorageService;
+
+    public CandidateJobController(CandidateJobsService candidateJobsService, CandidateJobRepository candidatesJobsRepository, CandidateService candidateService, FileStorageService fileStorageService) {
         this.candidateJobsService = candidateJobsService;
         this.candidatesJobsRepository = candidatesJobsRepository;
+        this.candidateService = candidateService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping
@@ -71,10 +84,69 @@ public class CandidateJobController {
             return ResponseEntity.ok(candidates);
         }
     }
+
+    @GetMapping("/candidatejobsByCustomer/{id}")
+    public ResponseEntity<List<CandidatesJobs>> findCandidatesJobsByCustomer(@PathVariable Long id) {
+        List<CandidatesJobs> candidatesJobs = candidateJobsService.findCandidatesJobsByCustomerId(id);
+
+        if (candidatesJobs.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(candidatesJobs);
+        }
+    }
     
     @GetMapping("/itsApplied/{candidateId}/{jobId}")
     public boolean isApplied(@PathVariable Long candidateId, @PathVariable Long jobId) {
         return candidatesJobsRepository.existsByCandidateIdAndJobId(candidateId, jobId);
+    }
+
+    @GetMapping("/cv/{id}")
+    public ResponseEntity<Resource> getResumeFile(@PathVariable Long id) {
+        try {
+            CandidatesJobs apply = candidateJobsService.getCandidateJobById(id);
+            String resumeLink = "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/"+apply.getCv();
+            if (resumeLink == null || resumeLink.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            String upDir = "src/Uploads/applies";
+            Resource resource = fileStorageService.loadFileAsResource(resumeLink, upDir);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/pdf"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (MalformedURLException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/diploma/{id}")
+    public ResponseEntity<Resource> getDiplomeFile(@PathVariable Long id) {
+        try {
+            CandidatesJobs apply = candidateJobsService.getCandidateJobById(id);
+            String resumeLink = "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/"+apply.getDiploma();
+            if (resumeLink == null || resumeLink.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            String upDir = "src/Uploads/applies";
+            Resource resource = fileStorageService.loadFileAsResource(resumeLink, upDir);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/pdf"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (MalformedURLException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
     
     @PostMapping
@@ -90,6 +162,26 @@ public class CandidateJobController {
             return ResponseEntity.ok(updatedCandidateJob);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/status/accept/{id}")
+    public ResponseEntity<CandidatesJobs> acceptStatus(@PathVariable Long id) {
+        boolean updated = candidateJobsService.setStatus(id,"accept");
+        if (updated) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/status/refuse/{id}")
+    public ResponseEntity<CandidatesJobs> refuseStatus(@PathVariable Long id) {
+        boolean updated = candidateJobsService.setStatus(id,"refuse");
+        if (updated) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/send")

@@ -34,7 +34,7 @@ public class AuthService {
 
     private final EducationRepository educationRepository;
 
-    private static final String EXTRACT_API_URL = "http://127.0.0.1:7000/extract";
+    private static final String EXTRACT_API_URL = "http://127.0.0.1:8000/pdf/extract";
 
   public AuthResponseDto login(LoginRequestDto request) {
     authenticationManager.authenticate(

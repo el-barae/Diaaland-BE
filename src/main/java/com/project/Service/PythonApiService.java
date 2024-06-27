@@ -10,14 +10,28 @@ import java.util.*;
 public class PythonApiService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final String PYTHON_API_URL = "http://localhost:5000/match/byJob";
+    private final String PYTHON_API_URL = "http://localhost:8000/";
 
-    public List<Map<String, Object>> getMatchingScores(Map<String, Object> input) throws Exception {
+    public List<Map<String, Object>> getMatchingScoresByJob(Map<String, Object> input) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(input), headers);
-        ResponseEntity<String> response = restTemplate.exchange(PYTHON_API_URL, HttpMethod.POST, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(PYTHON_API_URL+"match_resumes", HttpMethod.POST, request, String.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return objectMapper.readValue(response.getBody(), List.class);
+        } else {
+            throw new Exception("Error calling Python API: " + response.getStatusCode());
+        }
+    }
+
+    public List<Map<String, Object>> getMatchingScoresByCandidate(Map<String, Object> input) throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(input), headers);
+        ResponseEntity<String> response = restTemplate.exchange(PYTHON_API_URL+"match_jobs", HttpMethod.POST, request, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return objectMapper.readValue(response.getBody(), List.class);

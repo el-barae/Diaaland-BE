@@ -2,6 +2,7 @@ package com.project.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import com.project.Repository.CandidateRepository;
 import com.project.Repository.JobRepository;
@@ -69,6 +70,17 @@ public class CandidateJobsService {
         return null;
     }
 
+    public boolean setStatus(Long id, String status) {
+        Optional<CandidatesJobs> optionalCandidateJobs = candidateJobsRepository.findById(id);
+        if (optionalCandidateJobs.isPresent()) {
+            CandidatesJobs candidateJobs = optionalCandidateJobs.get();
+            candidateJobs.setStatus(status);
+            candidateJobsRepository.save(candidateJobs);
+            return true;
+        }
+        return false;
+    }
+
     public boolean deleteCandidateJob(Long id) {
         if (candidateJobsRepository.existsById(id)) {
             candidateJobsRepository.deleteById(id);
@@ -98,5 +110,9 @@ public class CandidateJobsService {
     
     public List<Candidates> findCandidatesByCustomerId(Long customerId){
     	return candidateJobsRepository.findCandidatesByCustomerId(customerId);
+    }
+
+    public List<CandidatesJobs> findCandidatesJobsByCustomerId(Long customerId){
+        return candidateJobsRepository.findCandidatesJobsByCustomerId(customerId);
     }
 }

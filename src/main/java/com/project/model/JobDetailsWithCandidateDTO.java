@@ -24,5 +24,6 @@ public class JobDetailsWithCandidateDTO {
     public static class JobDetails {
         private int idJob;
         private String jobDescription;
+        private List<String> degrees;
     }
 }

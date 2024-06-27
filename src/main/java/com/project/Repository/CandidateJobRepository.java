@@ -21,6 +21,11 @@ public interface CandidateJobRepository extends JpaRepository<CandidatesJobs, Lo
 	        + "WHERE cj.job.id = j.id "
 	        + "AND j.customer.id = :customerId")
 	List<Candidates> findCandidatesByCustomerId(@Param("customerId") Long customerId);
+
+	@Query("SELECT cj FROM CandidatesJobs cj, Jobs j ,Customers c "
+			+ "WHERE cj.job.id = j.id "
+			+ "AND j.customer.id = :customerId")
+	List<CandidatesJobs> findCandidatesJobsByCustomerId(@Param("customerId") Long customerId);
 	
 	@Query("SELECT cj.id FROM CandidatesJobs cj WHERE cj.candidate.id = :candidateId AND cj.job.id = :jobId")
     Long findIdByCandidateIdAndJobId(@Param("candidateId") Long candidateId, @Param("jobId") Long jobId);

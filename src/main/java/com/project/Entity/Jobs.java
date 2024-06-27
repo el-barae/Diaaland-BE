@@ -1,13 +1,10 @@
 package com.project.Entity;
 
 import java.time.LocalDate;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.util.List;
+
+import com.project.model.DegreesConverter;
+import jakarta.persistence.*;
 
 @Entity
 public class Jobs {
@@ -34,13 +31,17 @@ public class Jobs {
     private String address;
     @Column
     private String remoteStatus;
+
+    @Column
+    @Convert(converter = DegreesConverter.class)
+    private List<String> degrees;
     
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customers customer;
     
 
-    public Jobs(Long id, String name, String description, double minSalary, double maxSalary, String type, LocalDate openDate, LocalDate closeDate, int numberOfPositions, String address, String remoteStatus, Customers customer) {
+    public Jobs(Long id, String name, String description, double minSalary, double maxSalary, String type, LocalDate openDate, LocalDate closeDate, int numberOfPositions, String address, String remoteStatus, Customers customer, List<String> degrees) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -53,6 +54,7 @@ public class Jobs {
         this.address = address;
         this.remoteStatus = remoteStatus;
         this.customer = customer;
+        this.degrees = degrees;
     }
 
     public Jobs() {
@@ -152,6 +154,14 @@ public class Jobs {
     
     public void setCustomer(Customers customer) {
     	this.customer = customer;
+    }
+
+    public List<String> getDegrees() {
+        return degrees;
+    }
+
+    public void setDegrees(List<String> degrees) {
+        this.degrees = degrees;
     }
     /*@OneToMany(mappedBy = "job")
     private List<CandidatesJobs> candidatesJobs;*/

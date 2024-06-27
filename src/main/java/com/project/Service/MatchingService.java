@@ -55,12 +55,13 @@ public class MatchingService {
         Map<String, Object> input = new HashMap<>();
         input.put("jobId", job.getId());
         input.put("jobDescription", job.getDescription());
+        input.put("jobDegrees", job.getDegrees());
         input.put("candidatesDetails", candidatesDetails);
 
         // Call the Python API to get matching scores
         List<Map<String, Object>> matchingScores;
         try {
-            matchingScores = pythonApiService.getMatchingScores(input);
+            matchingScores = pythonApiService.getMatchingScoresByJob(input);
         } catch (Exception e) {
             e.printStackTrace(); // Handle the error appropriately
             return Collections.emptyList();
@@ -106,6 +107,7 @@ public class MatchingService {
                     Map<String, Object> jobMap = new HashMap<>();
                     jobMap.put("idJob", job.getId());
                     jobMap.put("jobDescription", job.getDescription());
+                    jobMap.put("jobDegrees", job.getDegrees());
                     return jobMap;
                 }).collect(Collectors.toList());
 
@@ -119,7 +121,7 @@ public class MatchingService {
         // Call the Python API to get matching scores
         List<Map<String, Object>> matchingScores;
         try {
-            matchingScores = pythonApiService.getMatchingScores(input);
+            matchingScores = pythonApiService.getMatchingScoresByCandidate(input);
         } catch (Exception e) {
             e.printStackTrace(); // Handle the error appropriately
             System.err.println("Error while calling Python API: " + e.getMessage());

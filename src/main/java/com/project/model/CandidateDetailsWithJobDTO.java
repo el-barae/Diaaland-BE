@@ -13,6 +13,7 @@ import java.util.List;
 public class CandidateDetailsWithJobDTO {
     private Long jobId;
     private String jobDescription;
+    private List<String> degrees;
     private List<CandidateDetails> candidatesDetails;
 
     @Getter
