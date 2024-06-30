@@ -53,8 +53,8 @@ public class Jobs {
         this.numberOfPositions = numberOfPositions;
         this.address = address;
         this.remoteStatus = remoteStatus;
-        this.customer = customer;
         this.degrees = degrees;
+        this.customer = customer;
     }
 
     public Jobs() {

@@ -13,19 +13,19 @@ public class DegreesConverter implements AttributeConverter<List<String>, String
     private static final String SEPARATOR = ",";
 
     @Override
-    public String convertToDatabaseColumn(List<String> degrees) {
-        if (degrees == null || degrees.isEmpty()) {
-            return null;
+    public String convertToDatabaseColumn(List<String> attribute) {
+        if (attribute == null || attribute.isEmpty()) {
+            return "";
         }
-        return String.join(SEPARATOR, degrees);
+        return attribute.stream()
+                .collect(Collectors.joining(SEPARATOR));
     }
 
     @Override
-    public List<String> convertToEntityAttribute(String dbDegrees) {
-        if (dbDegrees == null || dbDegrees.isEmpty()) {
-            return null;
+    public List<String> convertToEntityAttribute(String dbData) {
+        if (dbData == null || dbData.isEmpty()) {
+            return List.of();
         }
-        return Arrays.stream(dbDegrees.split(SEPARATOR))
-                .collect(Collectors.toList());
+        return Arrays.asList(dbData.split(SEPARATOR));
     }
 }

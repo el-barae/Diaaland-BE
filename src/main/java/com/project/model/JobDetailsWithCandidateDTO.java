@@ -1,5 +1,6 @@
 package com.project.model;
 
+import jakarta.persistence.Convert;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobDetailsWithCandidateDTO {
-    private int idCandidate;
+    private Long candidateId;
     private List<String> skills;
     private List<String> educations;
     private List<JobDetails> jobsDetails;
@@ -22,8 +23,10 @@ public class JobDetailsWithCandidateDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class JobDetails {
-        private int idJob;
-        private String jobDescription;
+        private Long jobId;
+        private String description;
+
+        @Convert(converter = DegreesConverter.class)
         private List<String> degrees;
     }
 }

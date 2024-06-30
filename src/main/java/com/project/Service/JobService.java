@@ -26,6 +26,10 @@ public class JobService {
         return jobRepository.findById(id).orElse(null);
     }
 
+    public Long getLastJobId() {
+        return jobRepository.findLastJobId();
+    }
+
     public Jobs createJob(Jobs job) {
         return jobRepository.save(job);
     }

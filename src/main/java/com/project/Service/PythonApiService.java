@@ -17,7 +17,7 @@ public class PythonApiService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(input), headers);
-        ResponseEntity<String> response = restTemplate.exchange(PYTHON_API_URL+"match_resumes", HttpMethod.POST, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(PYTHON_API_URL+"match_resumes/", HttpMethod.POST, request, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return objectMapper.readValue(response.getBody(), List.class);
@@ -31,7 +31,7 @@ public class PythonApiService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(input), headers);
-        ResponseEntity<String> response = restTemplate.exchange(PYTHON_API_URL+"match_jobs", HttpMethod.POST, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(PYTHON_API_URL+"match_jobs/", HttpMethod.POST, request, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return objectMapper.readValue(response.getBody(), List.class);

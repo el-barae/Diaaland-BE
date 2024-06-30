@@ -1,5 +1,6 @@
 package com.project.Controller;
 
+import com.project.Entity.Candidates;
 import com.project.Entity.Matching;
 import com.project.Service.MatchingService;
 import com.project.model.JobDetailsWithCandidateDTO;
@@ -26,5 +27,20 @@ public class MatchingController {
     @GetMapping("byCandidate/{candidateId}")
     public List<Matching> getCandidateWithJobs(@PathVariable Long candidateId) {
         return matchingService.getJobDescriptionAndCandidateDetails(candidateId);
+    }
+
+    @GetMapping
+    public List<Matching> getAllMatching() {
+        return matchingService.getAllMatching();
+    }
+
+    @GetMapping("/candidate/{candidateId}")
+    public List<Matching> getMatchingByCandidate(@PathVariable Long candidateId) {
+        return matchingService.getMatchingByCandidate(candidateId);
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public List<Matching> getMatchingByCustomer(@PathVariable Long customerId) {
+        return matchingService.getMatchingByCustomer(customerId);
     }
 }

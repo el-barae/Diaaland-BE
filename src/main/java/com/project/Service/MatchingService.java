@@ -6,6 +6,7 @@ import com.project.model.CandidateDetailsWithJobDTO;
 import com.project.model.JobDetailsWithCandidateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.*;
 import java.util.function.Function;
@@ -21,6 +22,9 @@ public class MatchingService {
     private CandidateRepository candidateRepository;
 
     @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
     private MatchingRepository matchingRepository;
 
     @Autowired
@@ -33,6 +37,30 @@ public class MatchingService {
 
     @Autowired
     private PythonApiService pythonApiService;
+
+    public List<Matching> getAllMatching() {
+        return matchingRepository.findAll();
+    }
+
+    public List<Matching> getMatchingByCandidate(Long candidateId) {
+        Candidates candidate = candidateRepository.findById(candidateId).orElse(null);
+        if (candidate == null) {
+            return null;
+        }
+        else{
+            return matchingRepository.findMatchingByCandidateId(candidateId);
+        }
+    }
+
+    public List<Matching> getMatchingByCustomer(Long customerId) {
+        Customers customer = customerRepository.findById(customerId).orElse(null);
+        if (customer == null) {
+            return null;
+        }
+        else{
+            return matchingRepository.findMatchingByCustomerId(customerId);
+        }
+    }
 
     public List<Matching> getJobDetailsWithCandidates(Long jobId) {
         Jobs job = jobRepository.findById(jobId)
@@ -55,15 +83,27 @@ public class MatchingService {
         Map<String, Object> input = new HashMap<>();
         input.put("jobId", job.getId());
         input.put("jobDescription", job.getDescription());
-        input.put("jobDegrees", job.getDegrees());
+        input.put("degrees", job.getDegrees());
         input.put("candidatesDetails", candidatesDetails);
 
         // Call the Python API to get matching scores
         List<Map<String, Object>> matchingScores;
         try {
             matchingScores = pythonApiService.getMatchingScoresByJob(input);
+        } catch (HttpServerErrorException e) {
+            System.err.println("Received 500 Internal Server Error: " + e.getMessage());
+            // Optionally, log the error details or send an alert
+            e.printStackTrace();
+            return Collections.emptyList();
         } catch (Exception e) {
-            e.printStackTrace(); // Handle the error appropriately
+            System.err.println("An error occurred while calling the Python API: " + e.getMessage());
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+
+        // Process the response
+        if (matchingScores == null || matchingScores.isEmpty()) {
+            System.err.println("Failed to get matching scores from the Python API.");
             return Collections.emptyList();
         }
 
@@ -74,25 +114,28 @@ public class MatchingService {
                         score -> ((Number) score.get("matchingScore")).doubleValue()
                 ));
 
-        // Create and save matching records
         List<Matching> matchings = new ArrayList<>();
         candidates.forEach(candidate -> {
             Long candidateId = candidate.getId();
             Double score = matchingScoresMap.getOrDefault(candidateId, 0.0);
 
-            Matching matching = new Matching();
-            matching.setJob(job);
-            matching.setCandidate(candidate);
-            matching.setScore(score);
+            if (score > 0.3) {
+                Matching matching = new Matching();
+                matching.setJob(job);
+                matching.setCandidate(candidate);
+                matching.setScore(score);
 
-            matchings.add(matching);
+                matchings.add(matching);
+            }
         });
 
-        // Save all matching records to the database
-        matchingRepository.saveAll(matchings);
+        if (!matchings.isEmpty()) {
+            matchingRepository.saveAll(matchings);
+        }
 
         return matchings;
     }
+
 
     public List<Matching> getJobDescriptionAndCandidateDetails(Long candidateId) {
         Candidates candidate = candidateRepository.findById(candidateId)
@@ -105,15 +148,15 @@ public class MatchingService {
         List<Map<String, Object>> jobDetailsList = jobs.stream()
                 .map(job -> {
                     Map<String, Object> jobMap = new HashMap<>();
-                    jobMap.put("idJob", job.getId());
-                    jobMap.put("jobDescription", job.getDescription());
-                    jobMap.put("jobDegrees", job.getDegrees());
+                    jobMap.put("jobId", job.getId());
+                    jobMap.put("description", job.getDescription());
+                    jobMap.put("degrees", job.getDegrees());
                     return jobMap;
                 }).collect(Collectors.toList());
 
         // Prepare the input for the Python API
         Map<String, Object> input = new HashMap<>();
-        input.put("idCandidate", candidate.getId());
+        input.put("candidateId", candidate.getId());
         input.put("skills", skills != null ? skills : Collections.emptyList());
         input.put("educations", educations != null ? educations : Collections.emptyList());
         input.put("jobsDetails", jobDetailsList);
@@ -134,7 +177,6 @@ public class MatchingService {
             return Collections.emptyList();
         }
 
-        // Merge matching scores into the response
         List<Matching> matchings = matchingScores.stream()
                 .map(score -> {
                     Long jobId = Long.valueOf((Integer) score.get("idJob"));
@@ -147,10 +189,13 @@ public class MatchingService {
 
                     return matching;
                 })
+                .filter(matching -> matching.getScore() > 0.3)
                 .collect(Collectors.toList());
 
-        // Save the matching results to the database
-        matchingRepository.saveAll(matchings);
+        if (!matchings.isEmpty()) {
+            matchingRepository.saveAll(matchings);
+        }
+
 
         return matchings;
     }

@@ -54,6 +54,15 @@ public class JobController {
         }
     }
 
+    @GetMapping("/lastJobId")
+    public ResponseEntity<Long> getLastJobId() {
+        Long id = jobService.getLastJobId();
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Jobs> createJob(@RequestBody Jobs job) {
         Jobs newJob = jobService.createJob(job);

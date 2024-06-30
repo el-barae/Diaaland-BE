@@ -88,33 +88,6 @@ public class AuthService {
     candidateRepository.save(candidate);
       Role role = user.getRole();
     var jwt = jwtService.generateToken(user);
-        // Call the extract API
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, Object> response = restTemplate.postForObject(EXTRACT_API_URL, Map.of("file_path", "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/"+candidate.getResumeLink()), Map.class);
-
-        List<String> extractedSkills = (List<String>) response.get("skills");
-        List<String> extractedEducations = (List<String>) response.get("educations");
-
-        // Save skills
-        for (String skillName : extractedSkills) {
-            Skills skill = skillRepository.findByName(skillName);
-
-            CandidateSkills candidateSkill = new CandidateSkills();
-            candidateSkill.setCandidate(candidate);
-            candidateSkill.setSkill(skill);
-            candidateSkill.setScore(0);
-            candidateSkillRepository.save(candidateSkill);
-        }
-
-        // Save educations
-        for (String educationName : extractedEducations) {
-            Educations education = new Educations();
-            education.setName(educationName);
-            education.setSchool("School name");
-            education.setCandidate(candidate);
-            educationRepository.save(education);
-        }
-
     return AuthResponseDto.builder()
       .token(jwt)
             .role(role)
