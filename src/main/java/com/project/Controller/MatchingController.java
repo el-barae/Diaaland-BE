@@ -5,10 +5,9 @@ import com.project.Entity.Matching;
 import com.project.Service.MatchingService;
 import com.project.model.JobDetailsWithCandidateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,5 +41,15 @@ public class MatchingController {
     @GetMapping("/customer/{customerId}")
     public List<Matching> getMatchingByCustomer(@PathVariable Long customerId) {
         return matchingService.getMatchingByCustomer(customerId);
+    }
+
+    @DeleteMapping("/remove-duplicates")
+    public ResponseEntity<String> removeDuplicateMatchings() {
+        try {
+            matchingService.removeDuplicateMatchings();
+            return ResponseEntity.ok("Duplicate matchings removed successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to remove duplicate matchings.");
+        }
     }
 }

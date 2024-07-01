@@ -6,6 +6,7 @@ import com.project.model.CandidateDetailsWithJobDTO;
 import com.project.model.JobDetailsWithCandidateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.*;
@@ -138,67 +139,96 @@ public class MatchingService {
 
 
     public List<Matching> getJobDescriptionAndCandidateDetails(Long candidateId) {
+        // Fetch candidate details
         Candidates candidate = candidateRepository.findById(candidateId)
                 .orElseThrow(() -> new RuntimeException("Candidate not found"));
 
-        List<String> skills = collect(candidateSkillRepository.findSkillsByCandidateId(candidateId), Skills::getName);
-        List<String> educations = collect(educationRepository.findByCandidateId(candidateId), Educations::getName);
+        // Collect skills and educations for the candidate
+        List<String> skills = candidateSkillRepository.findSkillsByCandidateId(candidateId).stream()
+                .map(Skills::getName)
+                .collect(Collectors.toList());
+        List<String> educations = educationRepository.findByCandidateId(candidateId).stream()
+                .map(Educations::getName)
+                .collect(Collectors.toList());
 
+        // Fetch all jobs
         List<Jobs> jobs = jobRepository.findAll();
         List<Map<String, Object>> jobDetailsList = jobs.stream()
                 .map(job -> {
                     Map<String, Object> jobMap = new HashMap<>();
                     jobMap.put("jobId", job.getId());
                     jobMap.put("description", job.getDescription());
-                    jobMap.put("degrees", job.getDegrees());
+                    jobMap.put("degrees", job.getDegrees() != null ? job.getDegrees() : Collections.emptyList());
                     return jobMap;
                 }).collect(Collectors.toList());
 
-        // Prepare the input for the Python API
+        // Prepare input for Python API in the required JSON format
         Map<String, Object> input = new HashMap<>();
         input.put("candidateId", candidate.getId());
         input.put("skills", skills != null ? skills : Collections.emptyList());
         input.put("educations", educations != null ? educations : Collections.emptyList());
         input.put("jobsDetails", jobDetailsList);
 
+        // Log or print the input JSON for debugging
+        System.out.println("Input JSON: " + input);
+
         // Call the Python API to get matching scores
         List<Map<String, Object>> matchingScores;
         try {
             matchingScores = pythonApiService.getMatchingScoresByCandidate(input);
         } catch (Exception e) {
-            e.printStackTrace(); // Handle the error appropriately
             System.err.println("Error while calling Python API: " + e.getMessage());
+            e.printStackTrace();
             return Collections.emptyList();
         }
 
-        // Check the response for correctness
+        // Validate the API response
         if (matchingScores == null || matchingScores.isEmpty()) {
             System.err.println("Failed to get matching scores from the Python API.");
             return Collections.emptyList();
         }
 
-        List<Matching> matchings = matchingScores.stream()
-                .map(score -> {
-                    Long jobId = Long.valueOf((Integer) score.get("idJob"));
-                    Double matchScore = ((Number) score.get("matchingScore")).doubleValue();
+        // Handle duplicate keys by merging scores, keeping the maximum score
+        Map<Long, Map<Long, Double>> matchingScoresMap = matchingScores.stream()
+                .collect(Collectors.groupingBy(
+                        score -> Long.valueOf((Integer) score.get("idJob")),
+                        Collectors.toMap(
+                                score -> Long.valueOf((Integer) score.get("idCandidate")),
+                                score -> ((Number) score.get("matchingScore")).doubleValue(),
+                                Double::max  // Handle duplicates by keeping the maximum score
+                        )
+                ));
 
-                    Matching matching = new Matching();
-                    matching.setJob(jobs.stream().filter(j -> j.getId().equals(jobId)).findFirst().orElse(null));
-                    matching.setCandidate(candidate);
-                    matching.setScore(matchScore);
+        List<Matching> matchings = new ArrayList<>();
+        for (Jobs job : jobs) {
+            Map<Long, Double> candidateScores = matchingScoresMap.get(job.getId());
+            if (candidateScores != null) {
+                for (Map.Entry<Long, Double> entry : candidateScores.entrySet()) {
+                    Long candidateMatchId = entry.getKey();
+                    Double score = entry.getValue();
 
-                    return matching;
-                })
-                .filter(matching -> matching.getScore() > 0.3)
-                .collect(Collectors.toList());
+                    if (score > 0.3) {
+                        Matching matching = new Matching();
+                        matching.setJob(job);
+                        Candidates matchedCandidate = candidateRepository.findById(candidateMatchId)
+                                .orElse(null);
+                        if (matchedCandidate != null) {
+                            matching.setCandidate(matchedCandidate);
+                            matching.setScore(score);
+                            matchings.add(matching);
+                        }
+                    }
+                }
+            }
+        }
 
         if (!matchings.isEmpty()) {
             matchingRepository.saveAll(matchings);
         }
 
-
         return matchings;
     }
+
 
 
    /* public JobDetailsWithCandidateDTO getJobDescriptionAndCandidateDetails(Long candidateId) {
@@ -227,4 +257,35 @@ public class MatchingService {
     private <T> List<String> collect(List<T> items, Function<T, String> mapper) {
         return items.stream().map(mapper).collect(Collectors.toList());
     }
+
+    @Transactional
+    public void removeDuplicateMatchings() {
+        // Find all duplicates
+        List<Matching> duplicateMatchings = matchingRepository.findDuplicates();
+
+        // Group by candidate and job IDs to find duplicates
+        Map<String, List<Matching>> groupedMatchings = duplicateMatchings.stream()
+                .collect(Collectors.groupingBy(
+                        m -> m.getCandidate().getId() + "-" + m.getJob().getId()
+                ));
+
+        // Collect IDs to keep one and delete the rest
+        List<Long> idsToKeep = new ArrayList<>();
+        List<Long> idsToDelete = new ArrayList<>();
+
+        groupedMatchings.forEach((key, matchings) -> {
+            if (matchings.size() > 1) {
+                // Sort by ID and keep the smallest one
+                matchings.sort(Comparator.comparing(Matching::getId));
+                idsToKeep.add(matchings.get(0).getId());
+                idsToDelete.addAll(matchings.stream().skip(1).map(Matching::getId).collect(Collectors.toList()));
+            }
+        });
+
+        // Delete duplicate matchings
+        if (!idsToDelete.isEmpty()) {
+            matchingRepository.deleteByIdNotIn(idsToKeep);
+        }
+    }
+
 }
