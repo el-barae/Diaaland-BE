@@ -43,7 +43,7 @@ public class FileUploadController {
     @Autowired
     private EducationRepository educationRepository;
 
-    private static final String EXTRACT_API_URL = "http://127.0.0.1:8000/pdf/extract";
+    private static final String EXTRACT_API_URL = "http://127.0.0.1:8000/extract";
 
     @PostMapping("/upload/{id}")
     public ResponseEntity<String> uploadFile(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
