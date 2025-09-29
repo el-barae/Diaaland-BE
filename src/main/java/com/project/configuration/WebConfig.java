@@ -10,6 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/v1/**")
                 .allowedOrigins("http://localhost:3000",
+                        "https://diaaland710.vercel.app",
                         "http://diaaland*",
                         "https://diaaland*")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
