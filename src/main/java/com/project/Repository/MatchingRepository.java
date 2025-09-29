@@ -19,6 +19,10 @@ public interface MatchingRepository extends JpaRepository<Matching, Long> {
     @Query("SELECT m1 FROM Matching m1 WHERE (SELECT COUNT(m2) FROM Matching m2 WHERE m2.candidate.id = m1.candidate.id AND m2.job.id = m1.job.id) > 1")
     List<Matching> findDuplicates();
 
+    @Query("SELECT m FROM Matching m WHERE m.job.id = :jobId AND m.candidate.id = :candidateId")
+    List<Matching> findAllByJobIdAndCandidateId(@Param("jobId") Long jobId, @Param("candidateId") Long candidateId);
+
+
     // Method to delete all duplicates except one for each candidate-job combination
     void deleteByIdNotIn(List<Long> ids);
 }

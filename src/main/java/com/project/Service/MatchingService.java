@@ -1,5 +1,6 @@
 package com.project.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.Entity.*;
 import com.project.Repository.*;
 import com.project.model.CandidateDetailsWithJobDTO;
@@ -63,12 +64,14 @@ public class MatchingService {
         }
     }
 
+    @Transactional
     public List<Matching> getJobDetailsWithCandidates(Long jobId) {
         Jobs job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
 
         List<Candidates> candidates = candidateRepository.findAll();
 
+        // Préparer les détails des candidats pour l'API Python
         List<Map<String, Object>> candidatesDetails = candidates.stream().map(candidate -> {
             List<String> skills = collect(candidateSkillRepository.findSkillsByCandidateId(candidate.getId()), Skills::getName);
             List<String> educations = collect(educationRepository.findByCandidateId(candidate.getId()), Educations::getName);
@@ -80,153 +83,172 @@ public class MatchingService {
             return candidateMap;
         }).collect(Collectors.toList());
 
-        // Prepare the input for the Python API
+        // Préparer l'input pour l'API Python
         Map<String, Object> input = new HashMap<>();
         input.put("jobId", job.getId());
         input.put("jobDescription", job.getDescription());
-        input.put("degrees", job.getDegrees());
+        input.put("degrees", job.getDegrees() != null ? job.getDegrees() : Collections.emptyList());
         input.put("candidatesDetails", candidatesDetails);
 
-        // Call the Python API to get matching scores
+        // Appel à l'API Python pour obtenir les scores
         List<Map<String, Object>> matchingScores;
         try {
             matchingScores = pythonApiService.getMatchingScoresByJob(input);
-        } catch (HttpServerErrorException e) {
-            System.err.println("Received 500 Internal Server Error: " + e.getMessage());
-            // Optionally, log the error details or send an alert
-            e.printStackTrace();
-            return Collections.emptyList();
         } catch (Exception e) {
-            System.err.println("An error occurred while calling the Python API: " + e.getMessage());
+            System.err.println("Error calling Python API: " + e.getMessage());
             e.printStackTrace();
             return Collections.emptyList();
         }
 
-        // Process the response
         if (matchingScores == null || matchingScores.isEmpty()) {
-            System.err.println("Failed to get matching scores from the Python API.");
+            System.err.println("No matching scores returned from Python API.");
             return Collections.emptyList();
         }
 
-        // Merge matching scores into the response
+        // Convertir la réponse en map candidateId -> score
         Map<Long, Double> matchingScoresMap = matchingScores.stream()
                 .collect(Collectors.toMap(
                         score -> Long.valueOf((Integer) score.get("idCandidate")),
                         score -> ((Number) score.get("matchingScore")).doubleValue()
                 ));
 
-        List<Matching> matchings = new ArrayList<>();
-        candidates.forEach(candidate -> {
+        List<Matching> matchingsToSave = new ArrayList<>();
+        for (Candidates candidate : candidates) {
             Long candidateId = candidate.getId();
             Double score = matchingScoresMap.getOrDefault(candidateId, 0.0);
 
-            if (score > 0.3) {
-                Matching matching = new Matching();
-                matching.setJob(job);
-                matching.setCandidate(candidate);
-                matching.setScore(score);
+            if (score > 0.1) {
+                // Vérifier si un matching existe déjà
+                List<Matching> existingMatchings = matchingRepository.findAllByJobIdAndCandidateId(job.getId(), candidateId);
 
-                matchings.add(matching);
+                if (!existingMatchings.isEmpty()) {
+                    // Garde le premier et met à jour son score
+                    Matching first = existingMatchings.get(0);
+                    first.setScore(score);
+                    matchingsToSave.add(first);
+
+                    // Supprime les doublons restants
+                    if (existingMatchings.size() > 1) {
+                        List<Long> idsToDelete = existingMatchings.subList(1, existingMatchings.size())
+                                .stream().map(Matching::getId).toList();
+                        matchingRepository.deleteAllById(idsToDelete);
+                    }
+                } else {
+                    // Crée un nouveau matching
+                    Matching matching = new Matching();
+                    matching.setJob(job);
+                    matching.setCandidate(candidate);
+                    matching.setScore(score);
+                    matchingsToSave.add(matching);
+                }
             }
-        });
-
-        if (!matchings.isEmpty()) {
-            matchingRepository.saveAll(matchings);
         }
 
-        return matchings;
+        if (!matchingsToSave.isEmpty()) {
+            matchingRepository.saveAll(matchingsToSave);
+        }
+
+        return matchingsToSave;
     }
 
 
+    @Transactional
     public List<Matching> getJobDescriptionAndCandidateDetails(Long candidateId) {
-        // Fetch candidate details
+        // --- Récupérer le candidat
         Candidates candidate = candidateRepository.findById(candidateId)
                 .orElseThrow(() -> new RuntimeException("Candidate not found"));
 
-        // Collect skills and educations for the candidate
-        List<String> skills = candidateSkillRepository.findSkillsByCandidateId(candidateId).stream()
-                .map(Skills::getName)
-                .collect(Collectors.toList());
-        List<String> educations = educationRepository.findByCandidateId(candidateId).stream()
-                .map(Educations::getName)
-                .collect(Collectors.toList());
+        // --- Récupérer les skills et educations
+        List<String> skills = candidateSkillRepository.findSkillsByCandidateId(candidateId)
+                .stream().map(Skills::getName).toList();
+        List<String> educations = educationRepository.findByCandidateId(candidateId)
+                .stream().map(Educations::getName).toList();
 
-        // Fetch all jobs
+        // --- Récupérer tous les jobs
         List<Jobs> jobs = jobRepository.findAll();
-        List<Map<String, Object>> jobDetailsList = jobs.stream()
-                .map(job -> {
-                    Map<String, Object> jobMap = new HashMap<>();
-                    jobMap.put("jobId", job.getId());
-                    jobMap.put("description", job.getDescription());
-                    jobMap.put("degrees", job.getDegrees() != null ? job.getDegrees() : Collections.emptyList());
-                    return jobMap;
-                }).collect(Collectors.toList());
+        List<Map<String, Object>> jobDetailsList = jobs.stream().map(job -> {
+            Map<String, Object> jobMap = new HashMap<>();
+            jobMap.put("jobId", job.getId());
+            jobMap.put("description", job.getDescription());
+            jobMap.put("degrees", job.getDegrees() != null ? job.getDegrees() : Collections.emptyList());
+            return jobMap;
+        }).toList();
 
-        // Prepare input for Python API in the required JSON format
+        // --- Préparer le JSON pour FastAPI
         Map<String, Object> input = new HashMap<>();
         input.put("candidateId", candidate.getId());
-        input.put("skills", skills != null ? skills : Collections.emptyList());
-        input.put("educations", educations != null ? educations : Collections.emptyList());
+        input.put("skills", skills);
+        input.put("educations", educations);
         input.put("jobsDetails", jobDetailsList);
 
-        // Log or print the input JSON for debugging
-        System.out.println("Input JSON: " + input);
-
-        // Call the Python API to get matching scores
         List<Map<String, Object>> matchingScores;
         try {
             matchingScores = pythonApiService.getMatchingScoresByCandidate(input);
         } catch (Exception e) {
-            System.err.println("Error while calling Python API: " + e.getMessage());
-            e.printStackTrace();
-            return Collections.emptyList();
+            throw new RuntimeException("Error while calling Python API", e);
         }
 
-        // Validate the API response
         if (matchingScores == null || matchingScores.isEmpty()) {
-            System.err.println("Failed to get matching scores from the Python API.");
             return Collections.emptyList();
         }
 
-        // Handle duplicate keys by merging scores, keeping the maximum score
+        // --- Créer une Map<JobId, Map<CandidateId, Score>> pour un accès rapide
         Map<Long, Map<Long, Double>> matchingScoresMap = matchingScores.stream()
                 .collect(Collectors.groupingBy(
                         score -> Long.valueOf((Integer) score.get("idJob")),
                         Collectors.toMap(
                                 score -> Long.valueOf((Integer) score.get("idCandidate")),
                                 score -> ((Number) score.get("matchingScore")).doubleValue(),
-                                Double::max  // Handle duplicates by keeping the maximum score
+                                Double::max
                         )
                 ));
 
-        List<Matching> matchings = new ArrayList<>();
+        List<Matching> matchingsToSave = new ArrayList<>();
+
         for (Jobs job : jobs) {
             Map<Long, Double> candidateScores = matchingScoresMap.get(job.getId());
-            if (candidateScores != null) {
-                for (Map.Entry<Long, Double> entry : candidateScores.entrySet()) {
-                    Long candidateMatchId = entry.getKey();
-                    Double score = entry.getValue();
+            if (candidateScores == null) continue;
 
-                    if (score > 0.3) {
-                        Matching matching = new Matching();
-                        matching.setJob(job);
-                        Candidates matchedCandidate = candidateRepository.findById(candidateMatchId)
-                                .orElse(null);
-                        if (matchedCandidate != null) {
-                            matching.setCandidate(matchedCandidate);
-                            matching.setScore(score);
-                            matchings.add(matching);
-                        }
+            for (Map.Entry<Long, Double> entry : candidateScores.entrySet()) {
+                Long candidateMatchId = entry.getKey();
+                Double score = entry.getValue();
+
+                if (score <= 0.1) continue;
+
+                Candidates matchedCandidate = candidateRepository.findById(candidateMatchId).orElse(null);
+                if (matchedCandidate == null) continue;
+
+                // --- Récupérer tous les doublons existants
+                List<Matching> existingMatchings = matchingRepository.findAllByJobIdAndCandidateId(job.getId(), candidateMatchId);
+
+                if (!existingMatchings.isEmpty()) {
+                    // Mettre à jour le score du premier
+                    Matching first = existingMatchings.get(0);
+                    first.setScore(score);
+                    matchingsToSave.add(first);
+
+                    // Supprimer les doublons restants
+                    if (existingMatchings.size() > 1) {
+                        List<Matching> toDelete = existingMatchings.subList(1, existingMatchings.size());
+                        matchingRepository.deleteAll(toDelete);
                     }
+                } else {
+                    // --- Créer un nouveau matching
+                    Matching matching = new Matching();
+                    matching.setJob(job);
+                    matching.setCandidate(matchedCandidate);
+                    matching.setScore(score);
+                    matchingsToSave.add(matching);
                 }
             }
         }
 
-        if (!matchings.isEmpty()) {
-            matchingRepository.saveAll(matchings);
+        // --- Sauvegarder tous les matchings dans la transaction
+        if (!matchingsToSave.isEmpty()) {
+            matchingRepository.saveAll(matchingsToSave);
         }
 
-        return matchings;
+        return matchingsToSave;
     }
 
 
