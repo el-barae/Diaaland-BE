@@ -14,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://diaaland*",
                         "https://diaaland*")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
-                .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization")
+                .allowedHeaders("*")
                 .allowCredentials(true);
     }
 
