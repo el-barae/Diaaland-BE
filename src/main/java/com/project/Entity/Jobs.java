@@ -13,7 +13,7 @@ public class Jobs {
     private Long id;
     @Column
     private String name;
-    @Column
+    @Column(length = 3000)
     private String description;
     @Column
     private double minSalary;
