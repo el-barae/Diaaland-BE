@@ -2,6 +2,7 @@
 package com.project.Controller;
 
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.util.List;
 
 import com.project.Service.FileStorageService;
@@ -83,17 +84,25 @@ public class CustomerController {
             if (customer == null || customer.getLogo() == null || customer.getLogo().isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
-            String logoLink = "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/" + customer.getLogo();
-            String uploadDir = "src/Uploads";
-            Resource resource = fileStorageService.loadFileAsResource(logoLink, uploadDir);
+
+            // customer.getLogo() doit contenir juste le nom du fichier (ex: "logo123.png")
+            Resource resource = fileStorageService.loadFileAsResource(customer.getLogo());
             if (resource == null) {
                 return ResponseEntity.notFound().build();
             }
 
+            // Détection dynamique du type MIME
+            String contentType = Files.probeContentType(resource.getFile().toPath());
+            if (contentType == null) {
+                contentType = "application/octet-stream"; // fallback
+            }
+
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_PNG) // Change the content type according to the image format
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "inline; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
+
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (MalformedURLException e) {

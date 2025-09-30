@@ -55,23 +55,25 @@ public class CandidateController {
     public ResponseEntity<Resource> getResumeFile(@PathVariable Long id) {
         try {
             Candidates candidate = candidateService.getCandidateById(id);
-            String resumeLink = "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/"+candidate.getResumeLink();
-            if (resumeLink == null || resumeLink.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+            if (candidate == null || candidate.getResumeLink() == null || candidate.getResumeLink().isEmpty()) {
+                return ResponseEntity.notFound().build();
             }
-            String upDir = "src/Uploads";
-            Resource resource = fileStorageService.loadFileAsResource(resumeLink, upDir);
+
+            // On charge directement via le service (resumeLink contient seulement le nom du fichier)
+            Resource resource = fileStorageService.loadFileAsResource(candidate.getResumeLink());
 
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType("application/pdf"))
+                    .contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
+
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.notFound().build();
         } catch (MalformedURLException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -79,20 +81,19 @@ public class CandidateController {
     public ResponseEntity<Resource> getImageFile(@PathVariable Long id) {
         try {
             Candidates candidate = candidateService.getCandidateById(id);
+
             if (candidate == null || candidate.getPhotoLink() == null || candidate.getPhotoLink().isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
-            String photoLink = "/home/el-barae/Documents/Intellij-projects/Diaaland-BE/" + candidate.getPhotoLink();
-            String upDir = "src/Uploads";
-            Resource resource = fileStorageService.loadFileAsResource(photoLink, upDir);
-            if (resource == null) {
-                return ResponseEntity.notFound().build();
-            }
+
+            // On charge directement via le service (photoLink contient seulement le nom du fichier)
+            Resource resource = fileStorageService.loadFileAsResource(candidate.getPhotoLink());
 
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
+                    .contentType(MediaType.IMAGE_JPEG) // ou IMAGE_PNG selon ton besoin
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
+
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (MalformedURLException e) {

@@ -1,6 +1,7 @@
 package com.project.Service;
 
 import com.project.model.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -13,32 +14,37 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Service
 public class FileStorageService {
 
-   // private final String uploadDir = "src/Uploads";
+    @Value("${upload.dir:src/Uploads}")  // valeur par défaut = src/Uploads
+    private String uploadDir;
 
-    public String storeFile(MultipartFile file, String uploadDir) throws IOException {
-        Path copyLocation = Paths
-                .get(uploadDir + File.separator + file.getOriginalFilename());
-        if (Files.exists(copyLocation)) {
-            return copyLocation.toString();
-        }
-        Files.copy(file.getInputStream(), copyLocation);
-        return copyLocation.toString();
+    public String storeFile(MultipartFile file) throws IOException {
+        Path copyLocation = Paths.get(uploadDir).resolve(file.getOriginalFilename()).normalize();
+
+        // Créer le dossier si inexistant
+        Files.createDirectories(copyLocation.getParent());
+
+        // Si fichier existe déjà, on écrase (sinon IOException)
+        Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
+
+        // On retourne seulement le nom du fichier (à stocker en DB)
+        return file.getOriginalFilename();
     }
 
-    public Resource loadFileAsResource(String fileName, String uploadDir) throws MalformedURLException {
+    public Resource loadFileAsResource(String fileName) throws MalformedURLException {
         Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();
         Resource resource = new UrlResource(filePath.toUri());
-        if(resource.exists()) {
+
+        if (resource.exists() && resource.isReadable()) {
             return resource;
         } else {
             throw new ResourceNotFoundException("File not found " + fileName);
         }
     }
-
-
 }
+
 

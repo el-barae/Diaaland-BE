@@ -41,9 +41,8 @@ public class CandidateJobsService {
     }
 
     public CandidatesJobs saveCandidateJob(Long candidateId, Long jobId, MultipartFile cvFile, MultipartFile diplomaFile, String coverLetter) throws IOException {
-        String applyDir = "src/Uploads/applies";
-        String cvUrl = fileStorageService.storeFile(cvFile, applyDir);
-        String diplomaUrl = fileStorageService.storeFile(diplomaFile, applyDir);
+        String cvUrl = fileStorageService.storeFile(cvFile);
+        String diplomaUrl = fileStorageService.storeFile(diplomaFile);
 
         Candidates candidate = candidatesRepository.findById(candidateId)
                 .orElseThrow(() -> new RuntimeException("Candidate not found with id " + candidateId));

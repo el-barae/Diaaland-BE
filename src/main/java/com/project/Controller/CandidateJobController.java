@@ -109,8 +109,7 @@ public class CandidateJobController {
             if (resumeLink == null || resumeLink.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            String upDir = "src/Uploads/applies";
-            Resource resource = fileStorageService.loadFileAsResource(resumeLink, upDir);
+            Resource resource = fileStorageService.loadFileAsResource(resumeLink);
 
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType("application/pdf"))
@@ -133,8 +132,7 @@ public class CandidateJobController {
             if (resumeLink == null || resumeLink.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            String upDir = "src/Uploads/applies";
-            Resource resource = fileStorageService.loadFileAsResource(resumeLink, upDir);
+            Resource resource = fileStorageService.loadFileAsResource(resumeLink);
 
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType("application/pdf"))
