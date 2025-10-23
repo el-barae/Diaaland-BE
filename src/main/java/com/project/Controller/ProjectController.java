@@ -18,7 +18,7 @@ import com.project.Service.ProjectService;
 
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping("/api/v1/profiles/projects")
 public class ProjectController {
     private final ProjectService projectService;
 

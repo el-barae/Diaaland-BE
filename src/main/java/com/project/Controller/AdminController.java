@@ -11,7 +11,7 @@ import com.project.Repository.AdminRepository;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/api/v1/users/admin")
 public class AdminController {
 	private AdminRepository adminRepo;
     private final AuthService authService;

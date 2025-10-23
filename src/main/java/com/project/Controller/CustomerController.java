@@ -24,7 +24,7 @@ import com.project.Entity.Customers;
 import com.project.Service.CustomerService;
 
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping("/api/v1/users/customers")
 public class CustomerController {
     private final CustomerService customerService;
     private final FileStorageService fileStorageService;

@@ -7,13 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.project.Entity.Role;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthResponseDto {
     private String token;
     private Role role;
+    private Long id;
+
 
     public static Builder builder() {
         return new Builder();
@@ -28,16 +30,22 @@ public class AuthResponseDto {
         }
 
         public Builder role(Role role) {
-                authResponse.role = role;
-                return this;
+            authResponse.role = role;
+            return this;
         }
+
+        public Builder id(Long id) {
+            authResponse.id = id;
+            return this;
+        }
+
 
         public AuthResponseDto build () {
             return authResponse;
         }
     }
 
-        public void setToken(String token) {
-            this.token = token;
-        }
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

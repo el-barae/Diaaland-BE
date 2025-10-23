@@ -18,7 +18,7 @@ import com.project.Service.LinkService;
 
 
 @RestController
-@RequestMapping("/api/v1/links")
+@RequestMapping("/api/v1/profiles/links")
 public class LinkController {
     private final LinkService linkService;
 

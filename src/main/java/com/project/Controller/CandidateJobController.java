@@ -23,7 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/v1/candidate-jobs")
+@RequestMapping("/api/v1/jobs/candidate-jobs")
 public class CandidateJobController {
     private final CandidateJobsService candidateJobsService;
     private final CandidateJobRepository candidatesJobsRepository;

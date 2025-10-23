@@ -1,11 +1,10 @@
 package com.project.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
+
+import com.project.Entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +30,18 @@ public class JwtService{
     return claimsResolver.apply(claims);
   }
 
-  public String generateToken(UserDetails userDetails) {
-    return generateToken(Map.of(), userDetails);
+  public String generateToken(User user) {
+    Map<String, Object> extraClaims = new HashMap<>();
+    extraClaims.put("id", user.getId());
+    extraClaims.put("role", user.getRole().name()); // .name() si c’est un enum
+
+    return Jwts.builder()
+            .setClaims(extraClaims)
+            .setSubject(user.getEmail()) // email = username
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1 jour
+            .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+            .compact();
   }
 
   public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {

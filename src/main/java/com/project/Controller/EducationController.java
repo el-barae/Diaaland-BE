@@ -16,7 +16,7 @@ import com.project.Service.EducationService;
 
 
 @RestController
-@RequestMapping("/api/v1/educations")
+@RequestMapping("/api/v1/profiles/educations")
 public class EducationController {
     private final EducationService educationService;
 

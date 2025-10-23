@@ -15,7 +15,7 @@ public class EmailController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @PostMapping("/api/v1/sendEmail")
+    @PostMapping("/api/v1/users/sendEmail")
     public String sendEmail(@RequestBody EmailRequest emailRequest) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();

@@ -15,7 +15,7 @@ import com.project.Entity.Certificates;
 import com.project.Service.CertificateService;
 
 @RestController
-@RequestMapping("/api/v1/certificates")
+@RequestMapping("/api/v1/profiles/certificates")
 public class CertificateController {
     private final CertificateService certificateService;
 

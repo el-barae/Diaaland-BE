@@ -18,7 +18,7 @@ import com.project.Entity.Skills;
 import com.project.Service.CandidateSkillService;
 
 @RestController
-@RequestMapping("/api/v1/candidate-skills")
+@RequestMapping("/api/v1/profiles/candidate-skills")
 public class CandidateSkillController {
     private final CandidateSkillService candidateSkillService;
 

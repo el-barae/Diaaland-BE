@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="835231e1-d860-4218-a361-7cac4b56644a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateJobController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateJobController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateLinkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateLinkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateSkillController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateSkillController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CertificateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CertificateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/EducationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/EducationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/EmailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/ExperienceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/ExperienceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/FavorisController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/FavorisController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/FileUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/FileUploadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/LinkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/LinkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/MatchingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/MatchingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/Other_LinkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/Other_LinkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/ProjectController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/SkillController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/SkillController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Service/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/configuration/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/model/AuthResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/model/AuthResponseDto.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="33IozrUah8W9JG1HavP9vZTbKD3" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
+    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.DiaalandBeApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.EurekaServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.GatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.JobServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.ProfileServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL/Documents/Intellij-projects/Diaaland-Microservices&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;module&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\Documents\Intellij-projects\Diaaland-BE\profile-service\src\main\java\diaaland\profileservice\Service" />
+      <recent name="C:\Users\DELL\Documents\Intellij-projects\Diaaland-BE\profile-service\src\main\java\diaaland\profileservice\Repository" />
+      <recent name="C:\Users\DELL\Documents\Intellij-projects\Diaaland-BE\profile-service\src\main\java\diaaland\profileservice\Entity" />
+      <recent name="C:\Users\DELL\Documents\Intellij-projects\Diaaland-BE\profile-service\src\main\java\diaaland\profileservice\Controller" />
+      <recent name="C:\Users\DELL\Documents\Intellij-projects\Diaaland-BE\job-service\src\main\java\diaaland\jobservice\Service" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="diaaland.profileservice.Model" />
+      <recent name="diaaland.gateway" />
+      <recent name="diaaland.gateway.Service" />
+      <recent name="diaaland.userservice.Service" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="DiaalandBeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <module name="Diaaland-BE" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.project.DiaalandBeApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="835231e1-d860-4218-a361-7cac4b56644a" name="Changes" comment="" />
+      <created>1759014213198</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759014213198</updated>
+      <workItem from="1759014214380" duration="2983000" />
+      <workItem from="1759047403656" duration="10298000" />
+      <workItem from="1759148586610" duration="10549000" />
+      <workItem from="1759241084387" duration="4990000" />
+      <workItem from="1759316934100" duration="2782000" />
+      <workItem from="1759357708859" duration="1570000" />
+      <workItem from="1759390545399" duration="4488000" />
+      <workItem from="1759490978226" duration="620000" />
+      <workItem from="1760536342968" duration="382000" />
+      <workItem from="1760784855357" duration="10315000" />
+      <workItem from="1760830392585" duration="6000" />
+      <workItem from="1760833084702" duration="1017000" />
+      <workItem from="1760873894014" duration="17340000" />
+      <workItem from="1760965354451" duration="17998000" />
+      <workItem from="1761036597387" duration="3660000" />
+      <workItem from="1761046766803" duration="13620000" />
+      <workItem from="1761122303678" duration="2259000" />
+      <workItem from="1761135588839" duration="2430000" />
+      <workItem from="1761140928918" duration="32000" />
+      <workItem from="1761141132456" duration="11000" />
+      <workItem from="1761141322903" duration="112000" />
+      <workItem from="1761141768456" duration="119000" />
+      <workItem from="1761143276200" duration="3872000" />
+      <workItem from="1761178293938" duration="75000" />
+      <workItem from="1761178410209" duration="72000" />
+      <workItem from="1761178529904" duration="101000" />
+      <workItem from="1761178667516" duration="296000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

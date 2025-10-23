@@ -16,7 +16,7 @@ import com.project.Entity.Experiences;
 import com.project.Service.ExperienceService;
 
 @RestController
-@RequestMapping("/api/v1/experiences")
+@RequestMapping("/api/v1/profiles/experiences")
 public class ExperienceController {
     private final ExperienceService experienceService;
 

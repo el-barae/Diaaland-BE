@@ -19,7 +19,7 @@ import com.project.Service.SkillService;
 
 
 @RestController
-@RequestMapping("/api/v1/skills")
+@RequestMapping("/api/v1/profiles/skills")
 public class SkillController {
     private final SkillService skillService;
 

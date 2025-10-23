@@ -19,7 +19,7 @@ import com.project.Service.CandidateLinkService;
 
 
 @RestController
-@RequestMapping("/api/v1/candidate-links")
+@RequestMapping("/api/v1/profiles/candidate-links")
 public class CandidateLinkController {
     private final CandidateLinkService candidateLinkService;
 

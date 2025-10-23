@@ -25,7 +25,7 @@ import com.project.Service.CandidateService;
 
 
 @RestController
-@RequestMapping("/api/v1/candidates")
+@RequestMapping("/api/v1/profiles/candidates")
 public class CandidateController {
     private final CandidateService candidateService;
     private final FileStorageService fileStorageService;

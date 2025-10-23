@@ -18,7 +18,7 @@ import com.project.Repository.FavorisRepository;
 import com.project.Service.FavorisService;
 
 @RestController
-@RequestMapping("/api/v1/favoris")
+@RequestMapping("/api/v1/jobs/favoris")
 public class FavorisController {
 	@Autowired
     private FavorisService favorisService;

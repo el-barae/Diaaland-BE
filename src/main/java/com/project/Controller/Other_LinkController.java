@@ -8,7 +8,7 @@ import com.project.Service.Other_LinkService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/other_links")
+@RequestMapping("/api/v1/profiles/other_links")
 public class Other_LinkController {
     private final Other_LinkService otherLinkService;
 
