@@ -5,35 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="835231e1-d860-4218-a361-7cac4b56644a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateJobController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateJobController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateLinkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateLinkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateSkillController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CandidateSkillController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CertificateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CertificateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/EducationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/EducationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/EmailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/ExperienceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/ExperienceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/FavorisController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/FavorisController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/FileUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/FileUploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/LinkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/LinkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/MatchingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/MatchingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/MessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/Other_LinkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/Other_LinkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/ProjectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Controller/SkillController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Controller/SkillController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/Service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/Service/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/configuration/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/model/AuthResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/model/AuthResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,6 +156,7 @@
       <workItem from="1761178410209" duration="72000" />
       <workItem from="1761178529904" duration="101000" />
       <workItem from="1761178667516" duration="296000" />
+      <workItem from="1761179260208" duration="249000" />
     </task>
     <servers />
   </component>
